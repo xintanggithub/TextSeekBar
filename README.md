@@ -2,7 +2,7 @@
 
 #### 示例
 
-<iframe height=498 width=510 src="./use_screen.mov">
+<iframe height=498 width=510 src="https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.mov">
 
 
 
