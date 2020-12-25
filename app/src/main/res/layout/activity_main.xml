@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.tson.text.seekbar.TextSeekBar
+        android:id="@+id/tsb1"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        app:progress="20"
+        app:thumbHeight="20dp"
+        app:thumbOffset="2dp"
+        app:thumbText="圆的"
+        app:thumbType="round"
+        app:thumbWidth="60dp" />
+
+    <com.tson.text.seekbar.TextSeekBar
+        android:id="@+id/tsb2"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        app:backgroundProgressBarColor="#EC0101"
+        app:backgroundProgressBarHeight="5dp"
+        app:progress="50"
+        app:prospectProgressBarColor="#009519"
+        app:prospectProgressBarHeight="10dp"
+        app:thumbBackgroundColor="#E7F806"
+        app:thumbHeight="20dp"
+        app:thumbOffset="2dp"
+        app:thumbText="方的"
+        app:thumbTextColor="#000000"
+        app:thumbType="square"
+        app:thumbWidth="60dp" />
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:text="点击开始播放" />
+
+    <com.tson.text.seekbar.TextSeekBar
+        android:id="@+id/tsb3"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:progress="0"
+        app:thumbHeight="20dp"
+        app:thumbOffset="2dp"
+        app:thumbType="round"
+        app:thumbWidth="60dp" />
+
+</LinearLayout>

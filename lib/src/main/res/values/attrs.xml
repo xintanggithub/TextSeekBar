@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeekBarView">
+        <attr name="thumbText" format="string" />
+        <attr name="thumbTextSize" format="dimension" />
+        <attr name="thumbTextColor" format="color|reference" />
+        <!--        前景进度条高度-->
+        <attr name="prospectProgressBarHeight" format="dimension" />
+        <!--        前景进度条颜色-->
+        <attr name="prospectProgressBarColor" format="color|reference" />
+        <!--        触发偏移量-->
+        <attr name="prospectProgressBarOffset" format="dimension" />
+        <!--        背景进度条高度-->
+        <attr name="backgroundProgressBarHeight" format="dimension" />
+        <!--        背景进度条颜色-->
+        <attr name="backgroundProgressBarColor" format="color|reference" />
+        <!--        触发偏移量-->
+        <attr name="backgroundProgressBarOffset" format="dimension" />
+        <attr name="thumbBackgroundColor" format="color|reference" />
+        <!--        thumb偏移量-->
+        <attr name="thumbOffset" format="dimension" />
+        <attr name="thumbWidth" format="dimension" />
+        <attr name="thumbHeight" format="dimension" />
+        <attr name="thumbType">
+            <flag name="square" value="0x10" />
+            <flag name="round" value="0x20" />
+        </attr>
+        <attr name="progress" format="integer" />
+
+    </declare-styleable>
+</resources>
