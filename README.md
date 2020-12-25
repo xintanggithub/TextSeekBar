@@ -84,7 +84,7 @@ seekbar.addOnChangeListener(object : SeekBarViewOnChangeListener {
                     }
                     MOVE -> { // 进度变更 or 手指滑动
                     }
-                    DOWN -> { // 手指暗笑
+                    DOWN -> { // 手指按下
                     }
                 }
             }
