@@ -2,8 +2,7 @@
 
 #### 示例
 
-<iframe height=498 width=510 src="https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.mov">
-
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.gif?raw=true)
 
 
 #### 1.使用
