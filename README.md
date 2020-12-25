@@ -1,9 +1,11 @@
 ### TextSeekBar
 
+可以在seekBar的拖动条上添加文字的自定义view。
+如果当前已有功能不能满足需求，源码已上传，希望可以给你的自定义提供一些参考。
+
 #### 示例
 
 ![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.gif?raw=true)
-
 
 #### 1.使用
 
