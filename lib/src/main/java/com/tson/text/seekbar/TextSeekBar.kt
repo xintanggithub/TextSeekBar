@@ -199,6 +199,9 @@ class TextSeekBar : View {
         return true
     }
 
+    /**
+     * 绘制前景进度条
+     */
     @SuppressLint("ResourceAsColor")
     private fun drawUpProgress(canvas: Canvas) {
         val hy = (mHeight / 2).toFloat()
@@ -220,6 +223,9 @@ class TextSeekBar : View {
         canvas.drawPath(path, prospectPaint)
     }
 
+    /**
+     * 绘制背景进度条
+     */
     @SuppressLint("ResourceAsColor")
     private fun drawBgProgress(canvas: Canvas) {
         val hy = (mHeight / 2).toFloat()
@@ -237,6 +243,9 @@ class TextSeekBar : View {
         canvas.drawPath(path, backgroundPaint)
     }
 
+    /**
+     * 绘制thumb和文本
+     */
     @SuppressLint("ResourceAsColor")
     private fun drawThumb(canvas: Canvas) {
         textPaint.textSize = thumbTextSize.toFloat()

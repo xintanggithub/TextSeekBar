@@ -5,6 +5,7 @@ import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.tson.text.seekbar.SeekBarViewOnChangeListener
+import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.DOWN
 import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.MOVE
 import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.UP
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
                     MOVE -> {
                         currentTime = (maxTime * percent).toInt()
                         notifyProgress()
+                    }
+                    DOWN -> {
+
                     }
                 }
             }
