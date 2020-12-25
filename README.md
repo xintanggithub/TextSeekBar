@@ -3,6 +3,31 @@
 可以在seekBar的拖动条上添加文字的自定义view。
 如果当前已有功能不能满足需求，源码已上传，希望可以给你的自定义提供一些参考。
 
+##### 当前gradle版本是6.5的，如果因为该版本无法进行依赖的，建议copy代码食用，代码量也不多。
+
+#### 项目引入
+
+- 1.根目录build.gradle添加
+```
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+            // 添加下面这个
+            maven{
+                url 'https://raw.githubusercontent.com/xintanggithub/maven/master'
+            }
+            // 添加上面这个
+        }
+    }
+```
+- 2.在需要使用的module的build.gradle添加
+
+```
+    implementation 'com.tson.text.seek:1.0.1'
+```
+
+
 #### 示例
 
 ![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.gif?raw=true)
