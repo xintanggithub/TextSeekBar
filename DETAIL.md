@@ -60,9 +60,9 @@ DF = CD * 1/2 = mHeight / 2
 在drawThumb方法中进行绘制
 
         // 模拟自定义属性设置宽度
-        val tbw = 160
+        val tbw = 160f
         // 模拟高度为默认高度
-        val tbh = mHeight
+        val tbh = mHeight.toFloat()
 
         var thumb = Paint()
         thumb.color = Color.parseColor("#000000")
@@ -74,8 +74,8 @@ DF = CD * 1/2 = mHeight / 2
         thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
 
         val path = Path()
-        path.moveTo(0,mHeight / 2).toFloat())
-        path.lineTo(tbw,mHeight / 2).toFloat())
+        path.moveTo(0f,(mHeight / 2).toFloat())
+        path.lineTo(tbw,(mHeight / 2).toFloat())
         canvas.drawPath(path, thumb)
 ```
 
@@ -114,8 +114,8 @@ DF = CD * 1/2 = mHeight / 2
 // 在上面绘制TB的地方，加上上面监听的滑动位置moveThumb，将横坐标修改成动态的：
 
         val path = Path()
-        path.moveTo(moveThumb,mHeight / 2).toFloat())
-        path.lineTo(moveThumb + tbw,mHeight / 2).toFloat())
+        path.moveTo(moveThumb,(mHeight / 2).toFloat())
+        path.lineTo(moveThumb + tbw,(mHeight / 2).toFloat())
         canvas.drawPath(path, thumb)
 ```
 
@@ -160,8 +160,8 @@ FI = tbw /2 + tbh /2
         val offsetX = tbw / 2 + tbh /2
 
         val path = Path()
-        path.moveTo(moveThumb - offsetX,mHeight / 2).toFloat())
-        path.lineTo(moveThumb + tbw - offsetX,mHeight / 2).toFloat())
+        path.moveTo(moveThumb - offsetX,(mHeight / 2).toFloat())
+        path.lineTo(moveThumb + tbw - offsetX,(mHeight / 2).toFloat())
         canvas.drawPath(path, thumb)
 ```
 
@@ -172,13 +172,119 @@ FI = tbw /2 + tbh /2
 在要满足TB以手指为中心，且无法滑动出边界，则可以得到实际滑动范围是F-E，而有效的滑动范围是I-H。
 所以得出来的结论是：FG和HE这两段距离内的滑动需要做限制。
 ```
-        if (moveThumb < tbw / 2 + tbh /2) {
-            // 如果滑动点，在0 - thumb 一半以下，小于最小有效点，则为无效，重置为最小的有效点，即thumb宽度的一半
-            moveThumb = tbw / 2 + tbh /2
-        } else if (moveThumb > mWidth - (tbw / 2 + tbh /2)) {
-            // 如果滑动点 在总宽度减去thumb一半以上，超过最大的有效点，则为无效，重置为  最大的有效点
-            moveThumb = mWidth - (tbw / 2 + tbh /2)
-        }
+         val p0 = tbh/2
+         // thumb的中点
+         if (moveThumb < tbw /2+ p0) {
+            moveThumb = tbw/2 + p0+p0
+         } else if (moveThumb > mWidth - (tbw/2 + p0)) {
+            moveThumb = mWidth - (tbw/2 + tbh)
+         }
+         val currentStart = moveThumb - tbw
+         val currentEnd = moveThumb + tbw
+       
+         // 进行画笔绘制
+         val path1 = Path()
+         path1.moveTo(currentStart, (mHeight / 2).toFloat())
+         path1.lineTo(currentEnd, (mHeight / 2).toFloat())
+         canvas.drawPath(path1, thumb)
 ```
 
 到这里，基本就完成了。文字和TB的逻辑基本一致，只不过一个是图形画笔，一个是文字的，这里需要注意点，其他的就是一样的。
+
+示例的完整代码：
+
+```
+import android.content.Context
+import android.graphics.*
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+
+/**
+ *  Date 2020/12/28 5:20 PM
+ *
+ * @author Tson
+ */
+class TextSeekBar : View {
+
+    private var mWidth = 0f // 整个进度条宽度 = 0f
+    private var mHeight = 0 // 进度条高度
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
+            : super(context, attrs, defStyleAttr)
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        mHeight = MeasureSpec.getSize(heightMeasureSpec)
+        mWidth = measuredWidth.toFloat()
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        drawThumb(canvas)
+    }
+
+    private var moveThumb = 0f // 滑动偏移量
+
+    // 添加事件监听
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val y = event.y
+        val x = event.x
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                moveThumb = x
+                invalidate() //更新UI
+            }
+            MotionEvent.ACTION_MOVE -> {
+                moveThumb = x
+                invalidate() //更新UI
+            }
+            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+                moveThumb = x
+                invalidate() //更新UI
+            }
+        }
+        return true
+    }
+
+    private fun drawThumb(canvas: Canvas) {
+        // 模拟自定义属性设置宽度
+        val tbw = 160f
+        // 模拟高度为默认高度
+        val tbh = mHeight.toFloat()
+
+        var thumb = Paint()
+        thumb.color = Color.parseColor("#000000")
+        thumb.style = Paint.Style.FILL_AND_STROKE
+        thumb.strokeWidth = tbh
+        thumb.strokeCap = Paint.Cap.ROUND
+        thumb.strokeJoin = Paint.Join.BEVEL
+        thumb.isAntiAlias = true
+        thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+
+        // 拿到thumb两端圆角的半径
+        val p0 = tbh/2
+        // thumb的中点
+        if (moveThumb < tbw /2+ p0) {
+            moveThumb = tbw/2 + p0+p0
+        } else if (moveThumb > mWidth - (tbw/2 + p0)) {
+            moveThumb = mWidth - (tbw/2 + tbh)
+        }
+        val currentStart = moveThumb - tbw
+        val currentEnd = moveThumb + tbw
+
+        // 进行画笔绘制
+        val path1 = Path()
+        path1.moveTo(currentStart, (mHeight / 2).toFloat())
+        path1.lineTo(currentEnd, (mHeight / 2).toFloat())
+        canvas.drawPath(path1, thumb)
+    }
+
+}
+```
