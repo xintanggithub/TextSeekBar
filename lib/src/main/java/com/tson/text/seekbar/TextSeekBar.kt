@@ -105,7 +105,10 @@ class TextSeekBar : View {
 
     fun setPercent(percent: Float, thumbText: String) {
         if (isDownUp) {
-            Log.w(TAG, "click Touching, don't change percent. want to percent=${percent} thumbText=${thumbText}")
+            Log.w(
+                TAG,
+                "click Touching, don't change percent. want to percent=${percent} thumbText=${thumbText}"
+            )
             return
         }
         Log.d(TAG, "percent=${percent} thumbText=${thumbText}")
@@ -127,20 +130,41 @@ class TextSeekBar : View {
 
         val seekTypedArray = context.obtainStyledAttributes(attrs, R.styleable.SeekBarView)
         thumbText = seekTypedArray.getString(R.styleable.SeekBarView_thumbText) ?: ""
-        thumbTextSize = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbTextSize, 26)
-        thumbTextColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbTextColor, thumbTextColor)
-        prospectProgressBarHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_prospectProgressBarHeight, 10)
-        prospectProgressBarColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarColor, prospectProgressBarColor)
-        prospectProgressBarOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_prospectProgressBarOffset, 5)
-        backgroundProgressBarHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_backgroundProgressBarHeight, 10)
-        backgroundProgressBarColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarColor, backgroundProgressBarColor)
-        backgroundProgressBarOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_backgroundProgressBarOffset, 0)
-        thumbColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundColor, thumbColor)
+        thumbTextSize =
+            seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbTextSize, 26)
+        thumbTextColor =
+            seekTypedArray.getColor(R.styleable.SeekBarView_thumbTextColor, thumbTextColor)
+        prospectProgressBarHeight = seekTypedArray.getDimensionPixelOffset(
+            R.styleable.SeekBarView_prospectProgressBarHeight,
+            10
+        )
+        prospectProgressBarColor = seekTypedArray.getColor(
+            R.styleable.SeekBarView_prospectProgressBarColor,
+            prospectProgressBarColor
+        )
+        prospectProgressBarOffset = seekTypedArray.getDimensionPixelOffset(
+            R.styleable.SeekBarView_prospectProgressBarOffset,
+            5
+        )
+        backgroundProgressBarHeight = seekTypedArray.getDimensionPixelOffset(
+            R.styleable.SeekBarView_backgroundProgressBarHeight,
+            10
+        )
+        backgroundProgressBarColor = seekTypedArray.getColor(
+            R.styleable.SeekBarView_backgroundProgressBarColor,
+            backgroundProgressBarColor
+        )
+        backgroundProgressBarOffset = seekTypedArray.getDimensionPixelOffset(
+            R.styleable.SeekBarView_backgroundProgressBarOffset,
+            0
+        )
+        thumbColor =
+            seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundColor, thumbColor)
         thumbOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbOffset, 0)
         thumbWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbWidth, 0)
         useSettingValue = 0 != thumbWidth
         thumbHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbHeight, 0)
-        thumbType = seekTypedArray.getInt(R.styleable.SeekBarView_thumbType,-1)
+        thumbType = seekTypedArray.getInt(R.styleable.SeekBarView_thumbType, -1)
         val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
         progress = (if (p < 0) 0 else if (p > 100) 100 else p).toFloat() / 100f
     }
@@ -250,31 +274,41 @@ class TextSeekBar : View {
     private fun drawThumb(canvas: Canvas) {
         textPaint.textSize = thumbTextSize.toFloat()
         val tw = textPaint.measureText(thumbText)
+        // 确认是否有自定义高度，如果没有，则使用默认高度
         if (!useSettingValue) {
             thumbWidth = tw.toInt()
         }
+        // 拿到thumb两端圆角的半径
         val p0 = if (thumbHeight != 0) (thumbHeight / 2).toFloat() else (mHeight / 2).toFloat()
+        // thumb的中点
         val tbw = thumbWidth / 2
         if (moveThumb < tbw + p0) {
+            // 如果滑动点，在0 - thumb 一半以下，小于最小有效点，则为无效，重置为最小的有效点，即thumb宽度的一半
             moveThumb = tbw + p0
         } else if (moveThumb > mWidth - (tbw + p0)) {
+            // 如果滑动点 在总宽度减去thumb一半以上，超过最大的有效点，则为无效，重置为  最大的有效点
             moveThumb = mWidth - (tbw + p0)
         }
+        // 开始绘制的点，thumb绘制的点为当前的点减去thumb一半宽度，让点击/滑动的点在thumb的中间
         val currentStart = moveThumb - tbw
         val currentEnd = moveThumb + tbw
         thumb.color = thumbColor
         thumb.style = Paint.Style.FILL_AND_STROKE
+        // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
         thumb.strokeWidth =
             if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
+        // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
         thumb.strokeCap = if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
         thumb.strokeJoin = Paint.Join.BEVEL
         thumb.isAntiAlias = true
         thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+        // 进行画笔绘制
         val path1 = Path()
         path1.moveTo(currentStart, (mHeight / 2).toFloat())
         path1.lineTo(currentEnd, (mHeight / 2).toFloat())
         canvas.drawPath(path1, thumb)
 
+        // 文字绘制
         textPaint.color = thumbTextColor
         textPaint.style = Paint.Style.FILL
         textPaint.strokeCap = Paint.Cap.BUTT
@@ -282,16 +316,23 @@ class TextSeekBar : View {
         textPaint.strokeJoin = Paint.Join.BEVEL
         textPaint.isAntiAlias = true
         textPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+
         val fm = textPaint.fontMetrics
+        // 获取文字所占高度
         val th = ceil(fm.descent - fm.ascent.toDouble()).toInt()
+        // 获取文字到Y原点的距离
         val thy = mHeight / 2 + (th / 3.3).toFloat()
+        // 获取thumb的中间点，使文字能跟随thumb而不错位
         val tbw2 = tw / 2
+        // 以下同thumb的有效滑动范围逻辑
         if (moveThumb < tbw2 + p0) {
             moveThumb = tbw2 + p0
         } else if (moveThumb > mWidth - (tbw2 + p0)) {
             moveThumb = mWidth - (tbw2 + p0)
         }
+        // 文字的开始点，因为获取过宽度，以及中间点，所以只需要拿到开始点即可确认整个文本的位置
         val currentStart2 = moveThumb - tbw2
+        // 进行绘制
         canvas.drawText(thumbText, currentStart2, thy, textPaint)
     }
 
