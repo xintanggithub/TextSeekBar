@@ -7,7 +7,7 @@
 
 - 结构示意图
 
-![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/textSeekBar.png?raw=true)
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/textSeekBar2.png?raw=true)
 
 椭圆thumb后面简称TB。
 
@@ -22,5 +22,5 @@ D为原点坐标（0，0）
 ```
 DF = CD * 1/2
 DL = DF - tbh * 1/2
-则L为 (0, CD * 1/2 - tbh * 1/2)
+则L坐标为 (0, CD * 1/2 - tbh * 1/2)
 ```
