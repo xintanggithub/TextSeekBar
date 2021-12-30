@@ -116,8 +116,16 @@ class TextSeekBar : View {
         setPercent(percent, thumbText)
     }
 
-    fun setPercent(percent: Float, thumbText: String) {
-        if (isDownUp) {
+    fun changePercent(percent: Float) {
+        changePercent(percent, thumbText)
+    }
+
+    fun changePercent(percent: Float, thumbText: String) {
+        setPercent(percent, thumbText, true)
+    }
+
+    fun setPercent(percent: Float, thumbText: String, force: Boolean = false) {
+        if (isDownUp && !force) {
             Log.w(TAG, "click Touching, don't change percent. want to percent=${percent} thumbText=${thumbText}")
             return
         }
