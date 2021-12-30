@@ -82,11 +82,11 @@
 seekbar.addOnChangeListener(object : SeekBarViewOnChangeListener {
             override fun touch(percent: Float, eventType: Int) {
                 when (eventType) {
-                    UP -> { // 手指触发抬起
+                    Up -> { // 手指触发抬起
                     }
-                    MOVE -> { // 进度变更 or 手指滑动
+                    Move -> { // 进度变更 or 手指滑动
                     }
-                    DOWN -> { // 手指按下
+                    Down -> { // 手指按下
                     }
                 }
             }

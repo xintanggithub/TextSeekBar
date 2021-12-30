@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.tson.text.seekbar.SeekBarViewOnChangeListener
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.DOWN
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.MOVE
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.UP
+import com.tson.text.seekbar.event.Down
+import com.tson.text.seekbar.event.Event
+import com.tson.text.seekbar.event.Move
+import com.tson.text.seekbar.event.Up
+import com.tson.text.seekbar.listener.SeekBarViewOnChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,9 +31,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         notifyProgress()
         tsb3.addOnChangeListener(object : SeekBarViewOnChangeListener {
-            override fun touch(percent: Float, eventType: Int) {
+            override fun touch(percent: Float, eventType: Event) {
                 when (eventType) {
-                    UP -> {
+                    Up -> {
                         isSleep = true
                         tsb3.isEnable = true
                         currentTime = (maxTime * percent).toInt()
@@ -43,11 +44,11 @@ class MainActivity : AppCompatActivity() {
                             notifyProgress()
                         }, 1500)
                     }
-                    MOVE -> {
+                    Move -> {
                         currentTime = (maxTime * percent).toInt()
                         notifyProgress()
                     }
-                    DOWN -> {
+                    Down -> {
 
                     }
                 }
