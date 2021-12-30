@@ -32,7 +32,7 @@
 
 #### 示例
 
-![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/use_screen.gif?raw=true)
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic.png?raw=true)
 
 #### 1.使用
 
@@ -54,25 +54,37 @@
 
 #### 2.参数说明
 
-| 自定义属性                  | 说明                                                         |
-| --------------------------- | ------------------------------------------------------------ |
-| thumbText                   | thumbText的文本内容，代码中可通过setPercent修改              |
-| thumbTextSize               | thumbText的字体大小                                          |
-| thumbTextColor              | thumbText订单字体颜色                                        |
-| prospectProgressBarHeight   | 前景进度条高度                                               |
-| prospectProgressBarColor    | 前景进度条颜色                                               |
-| prospectProgressBarOffset   | 前景进度条触发偏移量，如：触碰前高度为10，触碰后高度变为10+该属性值 ，体现触摸反馈，设置为0，则无效果 |
-| backgroundProgressBarHeight | 背景进度条高度                                               |
-| backgroundProgressBarColor  | 背景进度条颜色                                               |
-| backgroundProgressBarOffset | 背景进度条触发偏移量                                         |
-| thumbBackgroundColor        | thumbBar的背景色                                             |
-| thumbOffset                 | thumbBar的触发偏移量，和前景与背景不同，这个是当前高度减去当前偏移量 |
-| thumbWidth                  | thumbBar的宽度，如果不设置，则宽度基于thumbText动态生成 ，如果也没设置thumbText，则thumbBar根据thumbType显示为正方形或圆形 |
-| thumbHeight                 | thumbBar的高度，不设置，默认为当前TextSeekBar的高度          |
-| thumbType                   | thumbBar形状类型，当前支持square 矩形 和round 圆形           |
-| progress                    | 设置默认进度                                                 |
-
-
+| 自定义属性                    | 类型            | 说明                                                         |
+| --------------------------- | ------------------------------------------------------------ | --------------------------- |
+| thumbHide | boolean | thumb是否隐藏，默认false，不隐藏 |
+| touchEnable | boolean | 是否禁用手指拖动，true 禁用， false默认值，不禁用 |
+| thumbText | string | thumb文字内容 |
+| thumbTextSize | dimension | thumb字体大小 |
+| thumbTextColor | color/referencet | humb字体颜色 |
+| thumbBorderWidth | dimension | thumb边框宽度 |
+| thumbBorderColor | color/reference | thumb边框颜色 |
+| thumbBorderStartColor | color/reference | thumb边框渐变开始颜色 |
+| thumbBorderEndColor | color/reference | thumb边框渐变结束颜色 |
+| headEndPadding | dimension | thumb前后padding值，可以为负 |
+| prospectProgressBarHeight | dimension | 前景进度条高度 |
+| prospectProgressBarStartColor | color/reference | 前景进度条开始的渐变颜色 |
+| prospectProgressBarColor | color/reference | 前景进度条颜色 |
+| prospectProgressBarEndColor | color/reference | 前景进度条结束的渐变颜色 |
+| prospectProgressBarOffset | dimension | 触发偏移量 |
+| backgroundProgressBarHeight | dimension | 背景进度条高度 |
+| backgroundProgressBarStartColor | color/reference | 背景进度条渐变开始颜色 |
+| backgroundProgressBarColor | color/reference | 背景进度条颜色（如果设置为渐变，则，这个是中间的） |
+| backgroundProgressBarEndColor | color/reference | 背景进度条渐变结束颜色 |
+| backgroundProgressBarOffset | dimension | 触发偏移量 |
+| thumbBackgroundStartColor | color/reference | thumb开始颜色 |
+| thumbBackgroundColor | color/reference | thumb颜色 |
+| thumbBackgroundEndColor | color/reference | thumb结束颜色 |
+| thumbOffset | dimension | thumb偏移量 |
+| thumbWidth | dimension | thumb宽度 |
+| thumbHeight | dimension | thumb高度 |
+| thumbType | square、round | thumb圆角还是矩形 |
+| strokeCap | butt、round、square | 画笔类型，butt：和square一样是直角画笔，但是不会充满开始和结束，round：圆角，square：直角画笔，可以充满前后的距离 |
+| progress | integer | thumb进度 |
 
 #### 3.方法介绍
 
