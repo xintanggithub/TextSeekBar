@@ -70,6 +70,8 @@ class TextSeekBar : View {
     private var thumb = Paint()
     private var thumbColor = 0 // 拖动bar前景色
     private var thumbOffset = 0 // 拖动bar的偏移量，大于0变大，小于0缩小
+    private var thumbBackgroundStartColor = 0 // 拖动bar前景渐变开始色
+    private var thumbBackgroundEndColor = 0  // 拖动bar前景渐变结束色
     private var thumbWidth = 0 // 拖动bar的宽度
     private var useSettingValue = false // 是否有制定宽度，没有则使用text内容填充thumb的宽度，如果有则使用设置的值（不用设置，内部自己判断）
     private var thumbHeight = 0 // 拖动bar的高度，不设置，则根据内容自己填充
@@ -158,6 +160,8 @@ class TextSeekBar : View {
         backgroundProgressBarColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarColor, backgroundProgressBarColor)
         backgroundProgressBarOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_backgroundProgressBarOffset, 0)
         thumbColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundColor, thumbColor)
+        thumbBackgroundStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundStartColor,0)
+        thumbBackgroundEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundEndColor,0)
         thumbOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbOffset, 0)
         thumbWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbWidth, 0)
         useSettingValue = 0 != thumbWidth
@@ -345,14 +349,14 @@ class TextSeekBar : View {
         val currentEnd = moveThumb + tbw + headEndPadding
 
         drawBorder(canvas, currentStart, currentEnd)
-        drawThumbDetail(canvas, currentStart, currentEnd)
+        drawThumbDetail(canvas, currentStart, currentEnd, p0)
         drawText(canvas, tw, p0, externalSize)
     }
 
     /**
      * 绘制Thumb
      */
-    private fun drawThumbDetail(canvas: Canvas, currentStart: Float, currentEnd: Float) {
+    private fun drawThumbDetail(canvas: Canvas, currentStart: Float, currentEnd: Float, p0: Float) {
         thumb.style = Paint.Style.FILL_AND_STROKE
         // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
         thumb.strokeWidth =
@@ -364,7 +368,31 @@ class TextSeekBar : View {
         thumb.isAntiAlias = true
         thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
 
-        thumb.color = thumbColor
+        if (thumbBackgroundStartColor != 0 || thumbBackgroundEndColor != 0) {
+            val intArray = mutableListOf<Int>()
+            if (thumbBackgroundStartColor != 0) {
+                intArray.add(thumbBackgroundStartColor)
+            }
+            if (thumbColor != 0) {
+                intArray.add(thumbColor)
+            }
+            if (thumbBackgroundEndColor != 0) {
+                intArray.add(thumbBackgroundEndColor)
+            }
+            val intArraySize = intArray.size
+            val floatArray = mutableListOf<Float>()
+            intArray.forEachIndexed { index, _ ->
+                when (intArraySize - index) {
+                    intArraySize -> floatArray.add(0f)
+                    1 -> floatArray.add(1f)
+                    else -> floatArray.add(0.5f)
+                }
+            }
+            val linearGradient = LinearGradient((currentStart-p0), 0f, (currentEnd +p0 ), 0f, intArray.toIntArray(), floatArray.toFloatArray(), Shader.TileMode.CLAMP)
+            thumb.shader = linearGradient
+        } else {
+            thumb.color = thumbColor
+        }
 
         val path1 = Path()
         path1.moveTo(currentStart, (mHeight / 2).toFloat())

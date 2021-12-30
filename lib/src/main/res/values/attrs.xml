@@ -35,7 +35,12 @@
         <attr name="backgroundProgressBarEndColor" format="color|reference" />
         <!--        触发偏移量-->
         <attr name="backgroundProgressBarOffset" format="dimension" />
+        <!--        thumb开始颜色-->
+        <attr name="thumbBackgroundStartColor" format="color|reference" />
+        <!--        thumb颜色-->
         <attr name="thumbBackgroundColor" format="color|reference" />
+        <!--        thumb结束颜色-->
+        <attr name="thumbBackgroundEndColor" format="color|reference" />
         <!--        thumb偏移量-->
         <attr name="thumbOffset" format="dimension" />
         <!--        thumb宽度-->
