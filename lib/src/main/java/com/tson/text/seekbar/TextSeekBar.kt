@@ -213,6 +213,9 @@ class TextSeekBar : View {
     }
 
     private fun verifyBound(event: MotionEvent): Boolean {
+        if (isDownUp) {
+            return true
+        }
         val y = measuredHeight
         var yRange =
             if (prospectProgressBarHeight > backgroundProgressBarHeight) prospectProgressBarHeight.toFloat() else backgroundProgressBarHeight.toFloat()
