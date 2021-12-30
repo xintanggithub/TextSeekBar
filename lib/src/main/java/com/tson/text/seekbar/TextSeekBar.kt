@@ -344,6 +344,38 @@ class TextSeekBar : View {
         val currentStart = moveThumb - tbw - headEndPadding
         val currentEnd = moveThumb + tbw + headEndPadding
 
+        drawBorder(canvas, currentStart, currentEnd)
+        drawThumbDetail(canvas, currentStart, currentEnd)
+        drawText(canvas, tw, p0, externalSize)
+    }
+
+    /**
+     * 绘制Thumb
+     */
+    private fun drawThumbDetail(canvas: Canvas, currentStart: Float, currentEnd: Float) {
+        thumb.style = Paint.Style.FILL_AND_STROKE
+        // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
+        thumb.strokeWidth =
+            if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
+        // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
+        thumb.strokeCap =
+            if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
+        thumb.strokeJoin = Paint.Join.BEVEL
+        thumb.isAntiAlias = true
+        thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+
+        thumb.color = thumbColor
+
+        val path1 = Path()
+        path1.moveTo(currentStart, (mHeight / 2).toFloat())
+        path1.lineTo(currentEnd, (mHeight / 2).toFloat())
+        canvas.drawPath(path1, thumb)
+    }
+
+    /**
+     * 绘制边框
+     */
+    private fun drawBorder(canvas: Canvas, currentStart: Float, currentEnd: Float) {
         //边框
         if (thumbBorderWidth > 0) {
             thumbBorder.color = thumbBorderColor
@@ -362,23 +394,12 @@ class TextSeekBar : View {
             path2.lineTo(currentEnd, (mHeight / 2).toFloat())
             canvas.drawPath(path2, thumbBorder)
         }
+    }
 
-        thumb.color = thumbColor
-        thumb.style = Paint.Style.FILL_AND_STROKE
-        // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
-        thumb.strokeWidth =
-            if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
-        // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
-        thumb.strokeCap =
-            if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
-        thumb.strokeJoin = Paint.Join.BEVEL
-        thumb.isAntiAlias = true
-        thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
-        val path1 = Path()
-        path1.moveTo(currentStart, (mHeight / 2).toFloat())
-        path1.lineTo(currentEnd, (mHeight / 2).toFloat())
-        canvas.drawPath(path1, thumb)
-
+    /**
+     * 绘制文字
+     */
+    private fun drawText(canvas: Canvas, tw: Float, p0: Float, externalSize: Int) {
         // 文字绘制
         textPaint.color = thumbTextColor
         textPaint.style = Paint.Style.FILL

@@ -33,5 +33,30 @@
         app:thumbTextSize="18sp"
         app:thumbType="round" />
 
+    <com.tson.text.seekbar.TextSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:backgroundProgressBarColor="#CF6969"
+        app:backgroundProgressBarEndColor="#AE3838"
+        app:backgroundProgressBarHeight="8dp"
+        app:backgroundProgressBarStartColor="#FFB1B1"
+        app:headEndPadding="-7dp"
+        app:progress="40"
+        app:prospectProgressBarColor="#683ECD"
+        app:prospectProgressBarEndColor="#3F12AC"
+        app:prospectProgressBarHeight="8dp"
+        app:prospectProgressBarOffset="0dp"
+        app:prospectProgressBarStartColor="#9371E4"
+        app:thumbBackgroundColor="#6639CB"
+        app:thumbBorderColor="#C7BCE4"
+        app:thumbBorderWidth="4dp"
+        app:thumbHeight="25dp"
+        app:thumbText="thumb渐变"
+        app:thumbTextColor="#ffffff"
+        app:thumbTextSize="18sp"
+        app:thumbType="round" />
+
 
 </LinearLayout>
