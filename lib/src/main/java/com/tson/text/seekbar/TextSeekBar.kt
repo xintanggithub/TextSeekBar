@@ -346,18 +346,6 @@ class TextSeekBar : View {
 
         //边框
         if (thumbBorderWidth > 0) {
-            thumb.color = thumbColor
-            thumb.style = Paint.Style.FILL_AND_STROKE
-            // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
-            thumb.strokeWidth =
-                if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
-            // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
-            thumb.strokeCap =
-                if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
-            thumb.strokeJoin = Paint.Join.BEVEL
-            thumb.isAntiAlias = true
-            thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
-
             thumbBorder.color = thumbBorderColor
             thumbBorder.style = Paint.Style.FILL_AND_STROKE
             // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
@@ -375,7 +363,17 @@ class TextSeekBar : View {
             canvas.drawPath(path2, thumbBorder)
         }
 
-        // 进行画笔绘制
+        thumb.color = thumbColor
+        thumb.style = Paint.Style.FILL_AND_STROKE
+        // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
+        thumb.strokeWidth =
+            if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
+        // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
+        thumb.strokeCap =
+            if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
+        thumb.strokeJoin = Paint.Join.BEVEL
+        thumb.isAntiAlias = true
+        thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
         val path1 = Path()
         path1.moveTo(currentStart, (mHeight / 2).toFloat())
         path1.lineTo(currentEnd, (mHeight / 2).toFloat())
