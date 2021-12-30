@@ -1,30 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SeekBarView">
+        <!--        是否禁用手指拖动，true 禁用， false默认值，不禁用-->
+        <attr name="touchEnable" format="boolean" />
+        <!--        thumb文字-->
         <attr name="thumbText" format="string" />
+        <!--        thumb字体大小-->
         <attr name="thumbTextSize" format="dimension" />
+        <!--        thumb字体颜色-->
         <attr name="thumbTextColor" format="color|reference" />
+        <!--        thumb边框宽度-->
+        <attr name="thumbBorderWidth" format="dimension" />
+        <!--        thumb边框颜色-->
+        <attr name="thumbBorderColor" format="color|reference" />
+        <!--        thumb前后padding值，可以为负-->
+        <attr name="headEndPadding" format="dimension"/>
         <!--        前景进度条高度-->
         <attr name="prospectProgressBarHeight" format="dimension" />
+        <!--        前景进度条开始的渐变颜色-->
+        <attr name="prospectProgressBarStartColor" format="color|reference" />
         <!--        前景进度条颜色-->
         <attr name="prospectProgressBarColor" format="color|reference" />
+        <!--        前景进度条结束的渐变颜色-->
+        <attr name="prospectProgressBarEndColor" format="color|reference" />
         <!--        触发偏移量-->
         <attr name="prospectProgressBarOffset" format="dimension" />
         <!--        背景进度条高度-->
         <attr name="backgroundProgressBarHeight" format="dimension" />
-        <!--        背景进度条颜色-->
+        <!--        背景进度条渐变开始颜色-->
+        <attr name="backgroundProgressBarStartColor" format="color|reference" />
+        <!--        背景进度条颜色（如果设置为渐变，则，这个是中间的）-->
         <attr name="backgroundProgressBarColor" format="color|reference" />
+        <!--        背景进度条渐变结束颜色-->
+        <attr name="backgroundProgressBarEndColor" format="color|reference" />
         <!--        触发偏移量-->
         <attr name="backgroundProgressBarOffset" format="dimension" />
         <attr name="thumbBackgroundColor" format="color|reference" />
         <!--        thumb偏移量-->
         <attr name="thumbOffset" format="dimension" />
+        <!--        thumb宽度-->
         <attr name="thumbWidth" format="dimension" />
+        <!--        thumb高度-->
         <attr name="thumbHeight" format="dimension" />
+        <!--        thumb圆角还是矩形-->
         <attr name="thumbType">
             <flag name="square" value="0x10" />
             <flag name="round" value="0x20" />
         </attr>
+        <!--        thumb进度-->
         <attr name="progress" format="integer" />
 
     </declare-styleable>

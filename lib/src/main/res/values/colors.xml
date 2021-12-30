@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="thumbTextColor">#ffffff</color>
-    <color name="prospectProgressBarColor">#336699</color>
-    <color name="backgroundProgressBarColor">#ededed</color>
-    <color name="thumbColor">#000000</color>
-</resources>

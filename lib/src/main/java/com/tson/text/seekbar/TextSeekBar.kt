@@ -7,9 +7,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.DOWN
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.MOVE
-import com.tson.text.seekbar.SeekBarViewOnChangeListener.Companion.UP
+import com.tson.text.seekbar.event.Down
+import com.tson.text.seekbar.event.Event
+import com.tson.text.seekbar.event.Move
+import com.tson.text.seekbar.event.Up
+import com.tson.text.seekbar.listener.SeekBarViewOnChangeListener
 import kotlin.math.ceil
 
 /**
@@ -25,47 +27,61 @@ class TextSeekBar : View {
         private const val SQUARE = 0x10
     }
 
+    @Volatile
     private var progress = 0f // 默认进度
     private var isDownUp = false
+    @Volatile
     var isEnable = false // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
     private var mWidth = 0f // 整个进度条宽度 = 0f
     private var mHeight = 0 // 进度条高度
-    private var thumbText = "　　"
-    private var thumbTextSize = 55
-    private var thumbTextColor = 0
+    private var moveThumb = 0f // 滑动偏移量
 
     /**
      * 文字画笔
      */
     private var textPaint = Paint()
-    private var prospectProgressBarHeight = 0
-    private var prospectProgressBarColor = 0
-    private var prospectProgressBarOffset = 5
+    private var thumbText = "　" // 默认文字内容
+    private var thumbTextSize = 55 // 默认文字大小
+    private var thumbTextColor = 0 // 默认文字颜色
 
     /**
-     * 背景进度条画笔
+     * 前景进度条画笔
      */
     private var prospectPaint = Paint()
-    private var backgroundProgressBarHeight = 0 // 背景进度条高度，默认整体高度4分之一
-    private var backgroundProgressBarColor = 0 // 背景
-    private var backgroundProgressBarOffset = 0
+    private var prospectProgressBarHeight = 0 // 前景进度条高度
+    private var prospectProgressBarColor = 0 // 前景进度条颜色
+    private var prospectProgressBarOffset = 5 // 前景进度条手指拖动时的偏移量，大于0变大，小于0缩小
+    private var prospectProgressBarStartColor = 0 // 前景进度条的开始渐变色
+    private var prospectProgressBarEndColor = 0 // 前景进度条的开始渐变色
 
     /**
      * 背景进度条画笔
      */
     private var backgroundPaint = Paint()
-    private var thumbColor = 0 // 拖动bar前景色
-    private var thumbOffset = 10
-    private var thumbWidth = 0 // 拖动bar的宽度
-    private var useSettingValue = false
+    private var backgroundProgressBarHeight = 0 // 背景进度条高度，默认整体高度4分之一
+    private var backgroundProgressBarColor = 0 // 背景进度条颜色
+    private var backgroundProgressBarOffset = 0 // 背景进度条手指拖动时的偏移量，大于0变大，小于0缩小
+    private var backgroundProgressBarStartColor = 0 // 背景进度条的开始渐变色
+    private var backgroundProgressBarEndColor = 0 // 背景进度条的结束渐变色
 
     /**
      * thumb画笔
      */
     private var thumb = Paint()
-    private var moveThumb = 0f // 滑动偏移量
-    private var thumbHeight = 0
-    private var thumbType = ROUND
+    private var thumbColor = 0 // 拖动bar前景色
+    private var thumbOffset = 0 // 拖动bar的偏移量，大于0变大，小于0缩小
+    private var thumbWidth = 0 // 拖动bar的宽度
+    private var useSettingValue = false // 是否有制定宽度，没有则使用text内容填充thumb的宽度，如果有则使用设置的值（不用设置，内部自己判断）
+    private var thumbHeight = 0 // 拖动bar的高度，不设置，则根据内容自己填充
+    private var thumbType = ROUND // 指定类型，支持方形(矩形)和圆形(圆角)
+
+    /**
+     * thumb边框
+     */
+    private var thumbBorder = Paint()
+    private var thumbBorderWidth = 0 // thumb边框宽度
+    private var thumbBorderColor = 0 // thumb边框颜色
+    private var headEndPadding = 0 // thumb前后padding值
 
     private var seekBarTouchListener: SeekBarViewOnChangeListener? = null
 
@@ -77,11 +93,8 @@ class TextSeekBar : View {
         seekBarTouchListener = null
     }
 
-    private fun touch(percent: Float, eventType: Int) {
-        seekBarTouchListener?.touch(
-            if (percent < 0) 0f else if (percent > 1) 1f else percent,
-            eventType
-        )
+    private fun touch(percent: Float, eventType: Event) {
+        seekBarTouchListener?.touch(if (percent < 0) 0f else if (percent > 1) 1f else percent, eventType)
     }
 
     private fun checkIsEnable(): Boolean {
@@ -105,10 +118,7 @@ class TextSeekBar : View {
 
     fun setPercent(percent: Float, thumbText: String) {
         if (isDownUp) {
-            Log.w(
-                TAG,
-                "click Touching, don't change percent. want to percent=${percent} thumbText=${thumbText}"
-            )
+            Log.w(TAG, "click Touching, don't change percent. want to percent=${percent} thumbText=${thumbText}")
             return
         }
         Log.d(TAG, "percent=${percent} thumbText=${thumbText}")
@@ -129,48 +139,34 @@ class TextSeekBar : View {
         thumbColor = Color.parseColor("#000000")
 
         val seekTypedArray = context.obtainStyledAttributes(attrs, R.styleable.SeekBarView)
+        isEnable = seekTypedArray.getBoolean(R.styleable.SeekBarView_touchEnable, false)
         thumbText = seekTypedArray.getString(R.styleable.SeekBarView_thumbText) ?: ""
-        thumbTextSize =
-            seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbTextSize, 26)
-        thumbTextColor =
-            seekTypedArray.getColor(R.styleable.SeekBarView_thumbTextColor, thumbTextColor)
-        prospectProgressBarHeight = seekTypedArray.getDimensionPixelOffset(
-            R.styleable.SeekBarView_prospectProgressBarHeight,
-            10
-        )
-        prospectProgressBarColor = seekTypedArray.getColor(
-            R.styleable.SeekBarView_prospectProgressBarColor,
-            prospectProgressBarColor
-        )
-        prospectProgressBarOffset = seekTypedArray.getDimensionPixelOffset(
-            R.styleable.SeekBarView_prospectProgressBarOffset,
-            5
-        )
-        backgroundProgressBarHeight = seekTypedArray.getDimensionPixelOffset(
-            R.styleable.SeekBarView_backgroundProgressBarHeight,
-            10
-        )
-        backgroundProgressBarColor = seekTypedArray.getColor(
-            R.styleable.SeekBarView_backgroundProgressBarColor,
-            backgroundProgressBarColor
-        )
-        backgroundProgressBarOffset = seekTypedArray.getDimensionPixelOffset(
-            R.styleable.SeekBarView_backgroundProgressBarOffset,
-            0
-        )
-        thumbColor =
-            seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundColor, thumbColor)
+        thumbTextSize = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbTextSize, 26)
+        thumbTextColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbTextColor, thumbTextColor)
+        prospectProgressBarHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_prospectProgressBarHeight, 10)
+        prospectProgressBarColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarColor, prospectProgressBarColor)
+        prospectProgressBarOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_prospectProgressBarOffset, 5)
+        backgroundProgressBarHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_backgroundProgressBarHeight, 10)
+        backgroundProgressBarColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarColor, backgroundProgressBarColor)
+        backgroundProgressBarOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_backgroundProgressBarOffset, 0)
+        thumbColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBackgroundColor, thumbColor)
         thumbOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbOffset, 0)
         thumbWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbWidth, 0)
         useSettingValue = 0 != thumbWidth
         thumbHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbHeight, 0)
         thumbType = seekTypedArray.getInt(R.styleable.SeekBarView_thumbType, -1)
+        thumbBorderWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbBorderWidth, 0)
+        thumbBorderColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderColor,Color.parseColor("#00FFFFFF"))
+        headEndPadding = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_headEndPadding,0)
         val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
+        backgroundProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarStartColor,0)
+        backgroundProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarEndColor,0)
+        prospectProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarStartColor,0)
+        prospectProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarEndColor,0)
         progress = (if (p < 0) 0 else if (p > 100) 100 else p).toFloat() / 100f
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
-            : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -189,7 +185,7 @@ class TextSeekBar : View {
         drawThumb(canvas)
     }
 
-    private fun checkPercent(x: Float, eventType: Int) {
+    private fun checkPercent(x: Float, eventType: Event) {
         touch(x / mWidth, eventType)
     }
 
@@ -197,27 +193,24 @@ class TextSeekBar : View {
         if (checkIsEnable()) {
             return true
         }
-        val y = event.y
         val x = event.x
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 isDownUp = true
                 moveThumb = x
                 invalidate()
-                checkPercent(x, DOWN)
+                checkPercent(x, Down)
             }
             MotionEvent.ACTION_MOVE -> {
                 moveThumb = x
                 invalidate()
-                checkPercent(x, MOVE)
+                checkPercent(x, Move)
             }
             MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 isDownUp = false
                 moveThumb = x
                 invalidate()
-                checkPercent(x, UP)
-            }
-            else -> {
+                checkPercent(x, Up)
             }
         }
         return true
@@ -237,10 +230,35 @@ class TextSeekBar : View {
         prospectPaint.strokeCap = Paint.Cap.ROUND
         prospectPaint.strokeJoin = Paint.Join.BEVEL
         prospectPaint.isAntiAlias = true
-        val endX: Float
-        endX = if (moveThumb < pw) {
-            pw
-        } else Math.min(moveThumb, mWidth - pw)
+
+        val endX = if (moveThumb < pw) pw else moveThumb.coerceAtMost(mWidth - pw)
+
+        if (prospectProgressBarStartColor != 0 || prospectProgressBarEndColor != 0) {
+            val intArray = mutableListOf<Int>()
+            if (prospectProgressBarStartColor != 0) {
+                intArray.add(prospectProgressBarStartColor)
+            }
+            if (prospectProgressBarColor != 0) {
+                intArray.add(prospectProgressBarColor)
+            }
+            if (prospectProgressBarEndColor != 0) {
+                intArray.add(prospectProgressBarEndColor)
+            }
+            val intArraySize = intArray.size
+            val floatArray = mutableListOf<Float>()
+            intArray.forEachIndexed { index, _ ->
+                when (intArraySize - index) {
+                    intArraySize -> floatArray.add(0f)
+                    1 -> floatArray.add(1f)
+                    else -> floatArray.add(0.5f)
+                }
+            }
+            val linearGradient = LinearGradient(0f, 0f, endX, 0f, intArray.toIntArray(), floatArray.toFloatArray(), Shader.TileMode.CLAMP)
+            prospectPaint.shader = linearGradient
+        } else {
+            prospectPaint.color = prospectProgressBarColor
+        }
+
         val path = Path()
         path.moveTo(pw, hy)
         path.lineTo(endX - 4, hy)
@@ -253,14 +271,37 @@ class TextSeekBar : View {
     @SuppressLint("ResourceAsColor")
     private fun drawBgProgress(canvas: Canvas) {
         val hy = (mHeight / 2).toFloat()
-        val width =
-            (if (isDownUp) backgroundProgressBarHeight + backgroundProgressBarOffset else backgroundProgressBarHeight).toFloat()
-        backgroundPaint.color = backgroundProgressBarColor
+        val width = (if (isDownUp) backgroundProgressBarHeight + backgroundProgressBarOffset else backgroundProgressBarHeight).toFloat()
         backgroundPaint.style = Paint.Style.FILL_AND_STROKE
         backgroundPaint.strokeWidth = width
         backgroundPaint.strokeCap = Paint.Cap.ROUND
         backgroundPaint.strokeJoin = Paint.Join.BEVEL
         backgroundPaint.isAntiAlias = true
+        if (backgroundProgressBarStartColor != 0 || backgroundProgressBarEndColor != 0) {
+            val intArray = mutableListOf<Int>()
+            if (backgroundProgressBarStartColor != 0) {
+                intArray.add(backgroundProgressBarStartColor)
+            }
+            if (backgroundProgressBarColor != 0) {
+                intArray.add(backgroundProgressBarColor)
+            }
+            if (backgroundProgressBarEndColor != 0) {
+                intArray.add(backgroundProgressBarEndColor)
+            }
+            val intArraySize = intArray.size
+            val floatArray = mutableListOf<Float>()
+            intArray.forEachIndexed { index, _ ->
+                when (intArraySize - index) {
+                    intArraySize -> floatArray.add(0f)
+                    1 -> floatArray.add(1f)
+                    else -> floatArray.add(0.5f)
+                }
+            }
+            val linearGradient = LinearGradient(0f, 0f, measuredWidth.toFloat(), 0f, intArray.toIntArray(), floatArray.toFloatArray(), Shader.TileMode.CLAMP)
+            backgroundPaint.shader = linearGradient
+        } else {
+            backgroundPaint.color = backgroundProgressBarColor
+        }
         val path = Path()
         path.moveTo(width / 2, hy)
         path.lineTo(mWidth - width / 2 - 4, hy)
@@ -280,28 +321,52 @@ class TextSeekBar : View {
         }
         // 拿到thumb两端圆角的半径
         val p0 = if (thumbHeight != 0) (thumbHeight / 2).toFloat() else (mHeight / 2).toFloat()
+        // 边框和padding值都是要占宽度的
+        val externalSize = headEndPadding + thumbBorderWidth
         // thumb的中点
         val tbw = thumbWidth / 2
-        if (moveThumb < tbw + p0) {
+        if (moveThumb < tbw + p0 + externalSize) {
             // 如果滑动点，在0 - thumb 一半以下，小于最小有效点，则为无效，重置为最小的有效点，即thumb宽度的一半
-            moveThumb = tbw + p0
-        } else if (moveThumb > mWidth - (tbw + p0)) {
+            moveThumb = tbw + p0 + externalSize
+        } else if (moveThumb > mWidth - (tbw + p0 + externalSize)) {
             // 如果滑动点 在总宽度减去thumb一半以上，超过最大的有效点，则为无效，重置为  最大的有效点
-            moveThumb = mWidth - (tbw + p0)
+            moveThumb = mWidth - (tbw + p0 + externalSize)
         }
         // 开始绘制的点，thumb绘制的点为当前的点减去thumb一半宽度，让点击/滑动的点在thumb的中间
-        val currentStart = moveThumb - tbw
-        val currentEnd = moveThumb + tbw
-        thumb.color = thumbColor
-        thumb.style = Paint.Style.FILL_AND_STROKE
-        // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
-        thumb.strokeWidth =
-            if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
-        // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
-        thumb.strokeCap = if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
-        thumb.strokeJoin = Paint.Join.BEVEL
-        thumb.isAntiAlias = true
-        thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+        val currentStart = moveThumb - tbw - headEndPadding
+        val currentEnd = moveThumb + tbw + headEndPadding
+
+        //边框
+        if (thumbBorderWidth > 0) {
+            thumb.color = thumbColor
+            thumb.style = Paint.Style.FILL_AND_STROKE
+            // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
+            thumb.strokeWidth =
+                if (isDownUp) thumbHeight.toFloat() - thumbOffset else thumbHeight.toFloat()
+            // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
+            thumb.strokeCap =
+                if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
+            thumb.strokeJoin = Paint.Join.BEVEL
+            thumb.isAntiAlias = true
+            thumb.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+
+            thumbBorder.color = thumbBorderColor
+            thumbBorder.style = Paint.Style.FILL_AND_STROKE
+            // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
+            thumbBorder.strokeWidth =
+                if (isDownUp) thumbHeight.toFloat() - thumbOffset + thumbBorderWidth * 2 else thumbHeight.toFloat() + thumbBorderWidth * 2
+            // 根据设置的类型，觉得thumb块是矩形还是圆形画笔
+            thumbBorder.strokeCap =
+                if (thumbType == ROUND) Paint.Cap.ROUND else Paint.Cap.SQUARE // 方块或者 圆形
+            thumbBorder.strokeJoin = Paint.Join.BEVEL
+            thumbBorder.isAntiAlias = true
+            thumbBorder.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+            val path2 = Path()
+            path2.moveTo(currentStart, (mHeight / 2).toFloat())
+            path2.lineTo(currentEnd, (mHeight / 2).toFloat())
+            canvas.drawPath(path2, thumbBorder)
+        }
+
         // 进行画笔绘制
         val path1 = Path()
         path1.moveTo(currentStart, (mHeight / 2).toFloat())
@@ -325,27 +390,15 @@ class TextSeekBar : View {
         // 获取thumb的中间点，使文字能跟随thumb而不错位
         val tbw2 = tw / 2
         // 以下同thumb的有效滑动范围逻辑
-        if (moveThumb < tbw2 + p0) {
-            moveThumb = tbw2 + p0
-        } else if (moveThumb > mWidth - (tbw2 + p0)) {
-            moveThumb = mWidth - (tbw2 + p0)
+        if (moveThumb < tbw2 + p0 + externalSize) {
+            moveThumb = tbw2 + p0 + externalSize
+        } else if (moveThumb > mWidth - (tbw2 + p0 + externalSize)) {
+            moveThumb = mWidth - (tbw2 + p0 + externalSize)
         }
         // 文字的开始点，因为获取过宽度，以及中间点，所以只需要拿到开始点即可确认整个文本的位置
         val currentStart2 = moveThumb - tbw2
         // 进行绘制
         canvas.drawText(thumbText, currentStart2, thy, textPaint)
     }
-
-}
-
-interface SeekBarViewOnChangeListener {
-
-    companion object {
-        const val DOWN = 1
-        const val MOVE = 2
-        const val UP = 3
-    }
-
-    fun touch(percent: Float, eventType: Int)
 
 }
