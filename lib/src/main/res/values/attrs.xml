@@ -58,6 +58,11 @@
             <flag name="square" value="0x10" />
             <flag name="round" value="0x20" />
         </attr>
+        <attr name="strokeCap">
+            <flag name="butt" value="0x10"/>
+            <flag name="round" value="0x20"/>
+            <flag name="square" value="0x30"/>
+        </attr>
         <!--        thumb进度-->
         <attr name="progress" format="integer" />
 

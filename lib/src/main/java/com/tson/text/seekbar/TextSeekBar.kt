@@ -25,6 +25,10 @@ class TextSeekBar : View {
         private const val TAG = "SeekBarView"
         private const val ROUND = 0x20
         private const val SQUARE = 0x10
+
+        private const val CAP_BUTT = 0x10
+        private const val CAP_ROUND = 0x20
+        private const val CAP_SQUARE = 0x30
     }
 
     @Volatile
@@ -38,6 +42,7 @@ class TextSeekBar : View {
     private var moveThumb = 0f // 滑动偏移量
     @Volatile
     private var thumbHide = false // 是否隐藏thumb
+    private var strokeCap = CAP_ROUND //
 
     /**
      * 文字画笔
@@ -173,6 +178,7 @@ class TextSeekBar : View {
         useSettingValue = 0 != thumbWidth
         thumbHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbHeight, 0)
         thumbType = seekTypedArray.getInt(R.styleable.SeekBarView_thumbType, -1)
+        strokeCap = seekTypedArray.getInt(R.styleable.SeekBarView_strokeCap, CAP_ROUND)
         thumbBorderWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbBorderWidth, 0)
         thumbBorderColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderColor, thumbBorderColor)
         thumbBorderStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderStartColor,0)
@@ -269,7 +275,7 @@ class TextSeekBar : View {
         prospectPaint.color = prospectProgressBarColor
         prospectPaint.style = Paint.Style.FILL_AND_STROKE
         prospectPaint.strokeWidth = pw * 2
-        prospectPaint.strokeCap = Paint.Cap.ROUND
+        prospectPaint.strokeCap = getStrokeCap()
         prospectPaint.strokeJoin = Paint.Join.BEVEL
         prospectPaint.isAntiAlias = true
 
@@ -307,6 +313,14 @@ class TextSeekBar : View {
         canvas.drawPath(path, prospectPaint)
     }
 
+    private fun getStrokeCap(): Paint.Cap {
+        return when (strokeCap) {
+            CAP_BUTT -> Paint.Cap.BUTT
+            CAP_ROUND -> Paint.Cap.ROUND
+            else -> Paint.Cap.SQUARE
+        }
+    }
+
     /**
      * 绘制背景进度条
      */
@@ -316,7 +330,7 @@ class TextSeekBar : View {
         val width = (if (isDownUp) backgroundProgressBarHeight + backgroundProgressBarOffset else backgroundProgressBarHeight).toFloat()
         backgroundPaint.style = Paint.Style.FILL_AND_STROKE
         backgroundPaint.strokeWidth = width
-        backgroundPaint.strokeCap = Paint.Cap.ROUND
+        backgroundPaint.strokeCap = getStrokeCap()
         backgroundPaint.strokeJoin = Paint.Join.BEVEL
         backgroundPaint.isAntiAlias = true
         if (backgroundProgressBarStartColor != 0 || backgroundProgressBarEndColor != 0) {

@@ -7,16 +7,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
         tools:context=".MainActivity">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="普通直角背景进度条" />
+
+        <com.tson.text.seekbar.TextSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:backgroundProgressBarHeight="18dp"
+            app:progress="40"
+            app:prospectProgressBarHeight="18dp"
+            app:strokeCap="square"
+            app:thumbHide="true" />
+
+        <TextView
             android:id="@+id/tsb3Tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="普通进度条：40%" />
+            android:text="普通圆角进度条：40%" />
 
         <com.tson.text.seekbar.TextSeekBar
             android:id="@+id/tsb3"
