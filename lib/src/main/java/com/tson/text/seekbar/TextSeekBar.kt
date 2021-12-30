@@ -34,7 +34,10 @@ class TextSeekBar : View {
     var isEnable = false // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
     private var mWidth = 0f // 整个进度条宽度 = 0f
     private var mHeight = 0 // 进度条高度
+    @Volatile
     private var moveThumb = 0f // 滑动偏移量
+    @Volatile
+    private var thumbHide = false // 是否隐藏thumb
 
     /**
      * 文字画笔
@@ -180,6 +183,7 @@ class TextSeekBar : View {
         backgroundProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarEndColor,0)
         prospectProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarStartColor,0)
         prospectProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarEndColor,0)
+        thumbHide = seekTypedArray.getBoolean(R.styleable.SeekBarView_thumbHide, false)
         progress = (if (p < 0) 0 else if (p > 100) 100 else p).toFloat() / 100f
     }
 
@@ -199,7 +203,9 @@ class TextSeekBar : View {
         super.onDraw(canvas)
         drawBgProgress(canvas)
         drawUpProgress(canvas)
-        drawThumb(canvas)
+        if (!thumbHide) {
+            drawThumb(canvas)
+        }
     }
 
     private fun checkPercent(x: Float, eventType: Event) {

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SeekBarView">
+        <!--        thumb是否隐藏，默认false，不隐藏-->
+        <attr name="thumbHide" format="boolean" />
         <!--        是否禁用手指拖动，true 禁用， false默认值，不禁用-->
         <attr name="touchEnable" format="boolean" />
         <!--        thumb文字-->
