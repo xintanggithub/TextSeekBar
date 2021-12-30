@@ -212,8 +212,24 @@ class TextSeekBar : View {
         touch(x / mWidth, eventType)
     }
 
+    private fun verifyBound(event: MotionEvent): Boolean {
+        val y = measuredHeight
+        var yRange =
+            if (prospectProgressBarHeight > backgroundProgressBarHeight) prospectProgressBarHeight.toFloat() else backgroundProgressBarHeight.toFloat()
+        if (!thumbHide) { //如果隐藏了，则不用比较有效范围值，如果没有，则直接使用背景或前景进度条的
+            val tbHeight = if (thumbBorderWidth != 0) thumbBorder.strokeWidth else thumb.strokeWidth
+            yRange = if (tbHeight > yRange) tbHeight else yRange
+        }
+        val upBoundary = (y - yRange) / 2 // 上边界
+        val downBoundary = y - upBoundary // 下边界
+        return event.y in upBoundary..downBoundary // 验证是否在范围以内
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (checkIsEnable()) {
+            return true
+        }
+        if (!verifyBound(event)) { // 如果在边界之外
             return true
         }
         val x = event.x

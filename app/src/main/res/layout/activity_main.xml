@@ -16,8 +16,9 @@
 
     <com.tson.text.seekbar.TextSeekBar
         android:id="@+id/tsb3"
+        android:background="#336699"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="120dp"
         app:backgroundProgressBarColor="#CF6969"
         app:backgroundProgressBarHeight="8dp"
         app:progress="40"
