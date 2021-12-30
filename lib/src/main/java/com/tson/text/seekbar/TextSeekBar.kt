@@ -84,6 +84,8 @@ class TextSeekBar : View {
     private var thumbBorderWidth = 0 // thumb边框宽度
     private var thumbBorderColor = 0 // thumb边框颜色
     private var headEndPadding = 0 // thumb前后padding值
+    private var thumbBorderStartColor = 0 // thumb边框渐变开始颜色
+    private var thumbBorderEndColor = 0 // thumb边框渐变结束颜色
 
     private var seekBarTouchListener: SeekBarViewOnChangeListener? = null
 
@@ -147,6 +149,7 @@ class TextSeekBar : View {
         prospectProgressBarColor = Color.parseColor("#336699")
         backgroundProgressBarColor = Color.parseColor("#ededed")
         thumbColor = Color.parseColor("#000000")
+        thumbBorderColor = Color.parseColor("#00FFFFFF")
 
         val seekTypedArray = context.obtainStyledAttributes(attrs, R.styleable.SeekBarView)
         isEnable = seekTypedArray.getBoolean(R.styleable.SeekBarView_touchEnable, false)
@@ -168,7 +171,9 @@ class TextSeekBar : View {
         thumbHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbHeight, 0)
         thumbType = seekTypedArray.getInt(R.styleable.SeekBarView_thumbType, -1)
         thumbBorderWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbBorderWidth, 0)
-        thumbBorderColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderColor,Color.parseColor("#00FFFFFF"))
+        thumbBorderColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderColor, thumbBorderColor)
+        thumbBorderStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderStartColor,0)
+        thumbBorderEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderEndColor,0)
         headEndPadding = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_headEndPadding,0)
         val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
         backgroundProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarStartColor,0)
@@ -348,7 +353,7 @@ class TextSeekBar : View {
         val currentStart = moveThumb - tbw - headEndPadding
         val currentEnd = moveThumb + tbw + headEndPadding
 
-        drawBorder(canvas, currentStart, currentEnd)
+        drawBorder(canvas, currentStart, currentEnd, p0)
         drawThumbDetail(canvas, currentStart, currentEnd, p0)
         drawText(canvas, tw, p0, externalSize)
     }
@@ -403,10 +408,9 @@ class TextSeekBar : View {
     /**
      * 绘制边框
      */
-    private fun drawBorder(canvas: Canvas, currentStart: Float, currentEnd: Float) {
+    private fun drawBorder(canvas: Canvas, currentStart: Float, currentEnd: Float, p0: Float) {
         //边框
         if (thumbBorderWidth > 0) {
-            thumbBorder.color = thumbBorderColor
             thumbBorder.style = Paint.Style.FILL_AND_STROKE
             // 判断是否是触摸状态，如果是触摸状态，则使用正常高度减去偏移量，反之使用正常高度
             thumbBorder.strokeWidth =
@@ -417,6 +421,33 @@ class TextSeekBar : View {
             thumbBorder.strokeJoin = Paint.Join.BEVEL
             thumbBorder.isAntiAlias = true
             thumbBorder.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)
+
+            if (thumbBorderStartColor != 0 || thumbBorderEndColor != 0) {
+                val intArray = mutableListOf<Int>()
+                if (thumbBorderStartColor != 0) {
+                    intArray.add(thumbBorderStartColor)
+                }
+                if (thumbBorderColor != 0) {
+                    intArray.add(thumbBorderColor)
+                }
+                if (thumbBorderEndColor != 0) {
+                    intArray.add(thumbBorderEndColor)
+                }
+                val intArraySize = intArray.size
+                val floatArray = mutableListOf<Float>()
+                intArray.forEachIndexed { index, _ ->
+                    when (intArraySize - index) {
+                        intArraySize -> floatArray.add(0f)
+                        1 -> floatArray.add(1f)
+                        else -> floatArray.add(0.5f)
+                    }
+                }
+                val linearGradient = LinearGradient((currentStart-p0-thumbBorderWidth), 0f, (currentEnd +p0+thumbBorderWidth), 0f, intArray.toIntArray(), floatArray.toFloatArray(), Shader.TileMode.CLAMP)
+                thumbBorder.shader = linearGradient
+            } else {
+                thumbBorder.color = thumbBorderColor
+            }
+
             val path2 = Path()
             path2.moveTo(currentStart, (mHeight / 2).toFloat())
             path2.lineTo(currentEnd, (mHeight / 2).toFloat())
