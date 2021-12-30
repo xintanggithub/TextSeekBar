@@ -22,8 +22,9 @@
             android:layout_height="30dp"
             app:backgroundProgressBarHeight="18dp"
             app:progress="40"
+            app:prospectProgressBarOffset="0dp"
             app:prospectProgressBarHeight="18dp"
-            app:strokeCap="square"
+            app:strokeCap="butt"
             app:thumbHide="true" />
 
         <TextView

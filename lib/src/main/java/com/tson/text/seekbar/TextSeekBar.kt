@@ -270,8 +270,7 @@ class TextSeekBar : View {
     @SuppressLint("ResourceAsColor")
     private fun drawUpProgress(canvas: Canvas) {
         val hy = (mHeight / 2).toFloat()
-        val pw =
-            ((if (isDownUp) prospectProgressBarHeight + prospectProgressBarOffset else prospectProgressBarHeight) / 2).toFloat()
+        val pw = ((if (isDownUp) prospectProgressBarHeight + prospectProgressBarOffset else prospectProgressBarHeight) / 2).toFloat()
         prospectPaint.color = prospectProgressBarColor
         prospectPaint.style = Paint.Style.FILL_AND_STROKE
         prospectPaint.strokeWidth = pw * 2
@@ -280,6 +279,9 @@ class TextSeekBar : View {
         prospectPaint.isAntiAlias = true
 
         val endX = if (moveThumb < pw) pw else moveThumb.coerceAtMost(mWidth - pw)
+        if (endX <= pw) {
+            return
+        }
 
         if (prospectProgressBarStartColor != 0 || prospectProgressBarEndColor != 0) {
             val intArray = mutableListOf<Int>()
