@@ -3,6 +3,9 @@ package com.tson.text.seekbar
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -95,6 +98,10 @@ class TextSeekBar : View {
     private var thumbBorderStartColor = 0 // thumb边框渐变开始颜色
     private var thumbBorderEndColor = 0 // thumb边框渐变结束颜色
 
+    private var thumbIcon: Drawable? = null
+    private var thumbIconWidth = 0
+    private var thumbIconHeight = 0
+
     private var seekBarTouchListener: SeekBarViewOnChangeListener? = null
 
     fun addOnChangeListener(listener: SeekBarViewOnChangeListener) {
@@ -184,12 +191,15 @@ class TextSeekBar : View {
         thumbBorderStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderStartColor,0)
         thumbBorderEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_thumbBorderEndColor,0)
         headEndPadding = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_headEndPadding,0)
-        val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
         backgroundProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarStartColor,0)
         backgroundProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_backgroundProgressBarEndColor,0)
         prospectProgressBarStartColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarStartColor,0)
         prospectProgressBarEndColor = seekTypedArray.getColor(R.styleable.SeekBarView_prospectProgressBarEndColor,0)
         thumbHide = seekTypedArray.getBoolean(R.styleable.SeekBarView_thumbHide, false)
+        thumbIcon = seekTypedArray.getDrawable(R.styleable.SeekBarView_thumbIcon)
+        thumbIconWidth = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbIconWidth,0)
+        thumbIconHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbIconHeight, 0)
+        val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
         progress = (if (p < 0) 0 else if (p > 100) 100 else p).toFloat() / 100f
     }
 
@@ -397,6 +407,7 @@ class TextSeekBar : View {
         drawBorder(canvas, currentStart, currentEnd, p0)
         drawThumbDetail(canvas, currentStart, currentEnd, p0)
         drawText(canvas, tw, p0, externalSize)
+        drawIcon(canvas, currentStart, currentEnd)
     }
 
     /**
@@ -526,6 +537,30 @@ class TextSeekBar : View {
         val currentStart2 = moveThumb - tbw2
         // 进行绘制
         canvas.drawText(thumbText, currentStart2, thy, textPaint)
+    }
+
+    /**
+     * 绘制图标
+     */
+    private fun drawIcon(canvas: Canvas,currentStart: Float, currentEnd: Float) {
+        thumbIcon?.let { drawable ->
+            val bitmap = Bitmap.createBitmap(
+                if (thumbIconWidth <= 0) drawable.intrinsicWidth else thumbIconWidth,
+                if (thumbIconHeight <= 0) drawable.intrinsicHeight else thumbIconHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            val nc = Canvas(bitmap)
+            drawable.setBounds(0, 0, nc.width, nc.height)
+            drawable.draw(nc)
+            val centerPoint = (currentEnd - currentStart) / 2 + currentStart
+            val width = if (thumbIconWidth <= 0) bitmap.width else thumbIconWidth
+            val height = if ( thumbIconHeight <= 0) bitmap.height else thumbIconHeight
+            val yPoint = mHeight.toFloat() / 2
+            val top = yPoint - height / 2
+            val iconStart = centerPoint - width / 2
+            canvas.drawBitmap(bitmap, iconStart, top, Paint())
+        }
+
     }
 
 }

@@ -9,6 +9,12 @@
         <attr name="thumbText" format="string" />
         <!--        thumb字体大小-->
         <attr name="thumbTextSize" format="dimension" />
+        <!--        thumb图标-->
+        <attr name="thumbIcon" format="reference|color" />
+        <!--        thumb图标宽-->
+        <attr name="thumbIconWidth" format="dimension" />
+        <!--        thumb图标高-->
+        <attr name="thumbIconHeight" format="dimension" />
         <!--        thumb字体颜色-->
         <attr name="thumbTextColor" format="color|reference" />
         <!--        thumb边框宽度-->
