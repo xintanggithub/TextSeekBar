@@ -157,9 +157,9 @@
             app:prospectProgressBarStartColor="#F6F1FF"
             app:thumbBackgroundColor="#798EFF"
             app:thumbHeight="50dp"
-            app:thumbIcon="@drawable/sign_in_sina"
-            app:thumbIconHeight="30dp"
-            app:thumbIconWidth="30dp" />
+            app:thumbIcon="@drawable/ic_launcher_foreground"
+            app:thumbIconHeight="50dp"
+            app:thumbIconWidth="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
