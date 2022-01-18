@@ -26,7 +26,7 @@
 - 2.在需要使用的module的build.gradle添加
 
 ```
-    implementation 'com.tson.text.seek:1.0.1'
+    implementation 'com.tson.text.seek:1.0.3'
 ```
 
 
@@ -85,6 +85,9 @@
 | thumbType | square、round | thumb圆角还是矩形 |
 | strokeCap | butt、round、square | 画笔类型，butt：和square一样是直角画笔，但是不会充满开始和结束，round：圆角，square：直角画笔，可以充满前后的距离 |
 | progress | integer | thumb进度 |
+| thumbIcon | color/reference  | thumb图标 |
+| thumbIconWidth | dimension  | thumb图标宽，默认为icon的原始大小，超出边界将会被裁剪 |
+| thumbIconHeight | dimension  | thumb图标高，默认为icon的原始大小，超出边界将会被裁剪 |
 
 #### 3.方法介绍
 
