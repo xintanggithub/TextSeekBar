@@ -119,6 +119,6 @@ seekbar.setPercent("float 类型进度，0~1",”需要显示的内容“)
 - 禁用与启用
 
 ```kotlin
-seekbar.isEnable = true  // 是否禁用，如果 为 true 禁用， false 不禁用，默认 false
+seekbar.isEnable = true  // 是否禁用，如果 为 true 禁用，seekbar不可拖动， false 不禁用，seekbar可拖动，默认 false
 ```
 
