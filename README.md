@@ -26,7 +26,7 @@
 - 2.在需要使用的module的build.gradle添加
 
 ```
-    implementation 'com.tson.text.seek:1.0.3'
+    implementation 'com.tson.text.seek:1.0.4'
 ```
 
 
