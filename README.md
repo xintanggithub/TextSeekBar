@@ -36,7 +36,7 @@
 
 #### 使用案例
 
-![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic2.zpng?raw=true)
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic2.png?raw=true)
 
 #### 1.使用
 
