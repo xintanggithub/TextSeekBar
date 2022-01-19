@@ -34,6 +34,10 @@
 
 ![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic.png?raw=true)
 
+#### 使用案例
+
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic2.zpng?raw=true)
+
 #### 1.使用
 
 ```xml
