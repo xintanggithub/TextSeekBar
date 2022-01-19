@@ -7,242 +7,265 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        tools:context=".MainActivity">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="普通直角背景进度条" />
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <com.tson.text.seekbar.TextSeekBar
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginStart="-10dp"
-            android:layout_marginEnd="-10dp"
+            app:backgroundProgressBarColor="#F4AAAE"
             app:backgroundProgressBarHeight="18dp"
-            app:progress="40"
+            app:backgroundProgressBarStartColor="#F4AAAE"
+            app:progress="1"
+            app:prospectProgressBarColor="#FA541C"
             app:prospectProgressBarHeight="18dp"
             app:prospectProgressBarOffset="0dp"
+            app:prospectProgressBarStartColor="#F4AAAE"
             app:strokeCap="butt"
             app:thumbHide="true" />
 
-        <TextView
-            android:id="@+id/tsb3Tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="普通圆角进度条：40%" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:id="@+id/tsb3"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:backgroundProgressBarHeight="8dp"
-            app:progress="40"
-            app:prospectProgressBarHeight="8dp"
-            app:thumbHide="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="渐变进度条" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbHide="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="带矩形thumb进度条" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="带圆角thumb进度条" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbType="round" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thumb大小自定" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbHeight="50dp" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbHeight="50dp"
-            app:thumbType="round" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thumb添加图标的" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:progress="40"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbHeight="50dp"
-            app:thumbIcon="@drawable/ic_launcher_foreground"
-            app:thumbIconHeight="50dp"
-            app:thumbIconWidth="50dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thumb带文字" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:headEndPadding="-7dp"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbText="这里是文字"
-            app:thumbTextColor="#ffffff"
-            app:thumbTextSize="18sp"
-            app:thumbType="round" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thumb带边框" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:headEndPadding="-7dp"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#798EFF"
-            app:thumbBorderColor="#D5C9F1"
-            app:thumbBorderWidth="4dp"
-            app:thumbHeight="25dp"
-            app:thumbText="这里是文字"
-            app:thumbTextColor="#ffffff"
-            app:thumbTextSize="18sp"
-            app:thumbType="round" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="thumb和边框渐变" />
-
-        <com.tson.text.seekbar.TextSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:backgroundProgressBarColor="#FAB282"
-            app:backgroundProgressBarEndColor="#FB6501"
-            app:backgroundProgressBarHeight="8dp"
-            app:backgroundProgressBarStartColor="#FFE8D9"
-            app:headEndPadding="-7dp"
-            app:progress="40"
-            app:prospectProgressBarColor="#B18BF4"
-            app:prospectProgressBarEndColor="#630DFB"
-            app:prospectProgressBarHeight="8dp"
-            app:prospectProgressBarStartColor="#F6F1FF"
-            app:thumbBackgroundColor="#B08FFB"
-            app:thumbBackgroundEndColor="#D5C9F1"
-            app:thumbBackgroundStartColor="#7843F1"
-            app:thumbBorderColor="#B08FFB"
-            app:thumbBorderEndColor="#7843F1"
-            app:thumbBorderStartColor="#D5C9F1"
-            app:thumbBorderWidth="4dp"
-            app:thumbHeight="25dp"
-            app:thumbText="这里是文字"
-            app:thumbTextColor="#ffffff"
-            app:thumbTextSize="18sp"
-            app:thumbType="round" />
-
     </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="10dp"-->
+<!--        tools:context=".MainActivity">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="普通直角背景进度条" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginStart="-10dp"-->
+<!--            android:layout_marginEnd="-10dp"-->
+<!--            app:backgroundProgressBarHeight="18dp"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarHeight="18dp"-->
+<!--            app:prospectProgressBarOffset="0dp"-->
+<!--            app:strokeCap="butt"-->
+<!--            app:thumbHide="true" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tsb3Tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="普通圆角进度条：40%" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:id="@+id/tsb3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="20dp"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:thumbHide="true" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="渐变进度条" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="20dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbHide="true" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="带矩形thumb进度条" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="20dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="带圆角thumb进度条" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="20dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbType="round" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="thumb大小自定" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbHeight="50dp" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbHeight="50dp"-->
+<!--            app:thumbType="round" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="thumb添加图标的" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbHeight="50dp"-->
+<!--            app:thumbIcon="@drawable/ic_launcher_foreground"-->
+<!--            app:thumbIconHeight="50dp"-->
+<!--            app:thumbIconWidth="50dp" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="thumb带文字" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="30dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:headEndPadding="-7dp"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbText="这里是文字"-->
+<!--            app:thumbTextColor="#ffffff"-->
+<!--            app:thumbTextSize="18sp"-->
+<!--            app:thumbType="round" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="thumb带边框" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:headEndPadding="-7dp"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#798EFF"-->
+<!--            app:thumbBorderColor="#D5C9F1"-->
+<!--            app:thumbBorderWidth="4dp"-->
+<!--            app:thumbHeight="25dp"-->
+<!--            app:thumbText="这里是文字"-->
+<!--            app:thumbTextColor="#ffffff"-->
+<!--            app:thumbTextSize="18sp"-->
+<!--            app:thumbType="round" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="thumb和边框渐变" />-->
+
+<!--        <com.tson.text.seekbar.TextSeekBar-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:backgroundProgressBarColor="#FAB282"-->
+<!--            app:backgroundProgressBarEndColor="#FB6501"-->
+<!--            app:backgroundProgressBarHeight="8dp"-->
+<!--            app:backgroundProgressBarStartColor="#FFE8D9"-->
+<!--            app:headEndPadding="-7dp"-->
+<!--            app:progress="40"-->
+<!--            app:prospectProgressBarColor="#B18BF4"-->
+<!--            app:prospectProgressBarEndColor="#630DFB"-->
+<!--            app:prospectProgressBarHeight="8dp"-->
+<!--            app:prospectProgressBarStartColor="#F6F1FF"-->
+<!--            app:thumbBackgroundColor="#B08FFB"-->
+<!--            app:thumbBackgroundEndColor="#D5C9F1"-->
+<!--            app:thumbBackgroundStartColor="#7843F1"-->
+<!--            app:thumbBorderColor="#B08FFB"-->
+<!--            app:thumbBorderEndColor="#7843F1"-->
+<!--            app:thumbBorderStartColor="#D5C9F1"-->
+<!--            app:thumbBorderWidth="4dp"-->
+<!--            app:thumbHeight="25dp"-->
+<!--            app:thumbText="这里是文字"-->
+<!--            app:thumbTextColor="#ffffff"-->
+<!--            app:thumbTextSize="18sp"-->
+<!--            app:thumbType="round" />-->
+
+<!--    </LinearLayout>-->
 
 </ScrollView>

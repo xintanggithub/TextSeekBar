@@ -13,10 +13,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tsb3.addOnChangeListener(object : SeekBarViewOnChangeListener {
-            override fun touch(percent: Float, eventType: Event) {
-                tsb3Tv.text = "普通进度条：${(percent * 100).toInt()}%"
-            }
-        })
+//        tsb3.addOnChangeListener(object : SeekBarViewOnChangeListener {
+//            override fun touch(percent: Float, eventType: Event) {
+//                tsb3Tv.text = "普通进度条：${(percent * 100).toInt()}%"
+//            }
+//        })
     }
 }

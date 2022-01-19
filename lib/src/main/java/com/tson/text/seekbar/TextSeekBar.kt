@@ -295,9 +295,14 @@ class TextSeekBar : View {
         prospectPaint.strokeJoin = Paint.Join.BEVEL
         prospectPaint.isAntiAlias = true
 
-        val endX = if (moveThumb < pw) pw else moveThumb.coerceAtMost(mWidth - pw)
-        if (endX <= pw) {
-            return
+        val endX = if (getStrokeCap() == Paint.Cap.BUTT) {
+            moveThumb
+        } else {
+            val end = if (moveThumb < pw) pw else moveThumb.coerceAtMost(mWidth - pw)
+            if (end <= pw) {
+                return
+            }
+            end
         }
 
         if (prospectProgressBarStartColor != 0 || prospectProgressBarEndColor != 0) {
@@ -327,8 +332,13 @@ class TextSeekBar : View {
         }
 
         val path = Path()
-        path.moveTo(pw, hy)
-        path.lineTo(endX - 4, hy)
+        if (getStrokeCap() == Paint.Cap.BUTT) {
+            path.moveTo(0f, hy)
+            path.lineTo(endX - 4, hy)
+        } else {
+            path.moveTo(pw, hy)
+            path.lineTo(endX - 4, hy)
+        }
         canvas.drawPath(path, prospectPaint)
     }
 
@@ -378,8 +388,14 @@ class TextSeekBar : View {
             backgroundPaint.color = backgroundProgressBarColor
         }
         val path = Path()
-        path.moveTo(width / 2, hy)
-        path.lineTo(mWidth - width / 2 - 4, hy)
+
+        if (getStrokeCap() == Paint.Cap.BUTT) {
+            path.moveTo(0f, hy)
+            path.lineTo(mWidth, hy)
+        } else {
+            path.moveTo(width / 2, hy)
+            path.lineTo(mWidth - width / 2 - 4, hy)
+        }
         canvas.drawPath(path, backgroundPaint)
     }
 
