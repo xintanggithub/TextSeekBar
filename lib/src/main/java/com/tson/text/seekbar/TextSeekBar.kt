@@ -46,6 +46,8 @@ class TextSeekBar : View {
     @Volatile
     private var thumbHide = false // 是否隐藏thumb
     private var strokeCap = CAP_ROUND //
+    @Volatile
+    private var measureLoad = false
 
     /**
      * 文字画笔
@@ -149,6 +151,10 @@ class TextSeekBar : View {
             return
         }
         Log.d(TAG, "percent=${percent} thumbText=${thumbText}")
+        if (!measureLoad) {
+            this.postDelayed({ setPercent(percent, thumbText, force) }, 10)
+            return
+        }
         moveThumb = percent * mWidth
         this.thumbText = thumbText
         getPercent()
@@ -213,6 +219,7 @@ class TextSeekBar : View {
         }
         mWidth = measuredWidth.toFloat()
         moveThumb = mWidth * progress
+        measureLoad = true
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -560,7 +567,6 @@ class TextSeekBar : View {
             val iconStart = centerPoint - width / 2
             canvas.drawBitmap(bitmap, iconStart, top, Paint())
         }
-
     }
 
 }
