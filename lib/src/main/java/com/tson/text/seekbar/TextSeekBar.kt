@@ -299,9 +299,6 @@ class TextSeekBar : View {
             moveThumb
         } else {
             val end = if (moveThumb < pw) pw else moveThumb.coerceAtMost(mWidth - pw)
-            if (end <= pw) {
-                return
-            }
             end
         }
 
