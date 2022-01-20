@@ -334,10 +334,10 @@ class TextSeekBar : View {
         val path = Path()
         if (getStrokeCap() == Paint.Cap.BUTT) {
             path.moveTo(0f, hy)
-            path.lineTo(endX - 4, hy)
+            path.lineTo(endX, hy)
         } else {
-            path.moveTo(pw, hy)
-            path.lineTo(endX - 4, hy)
+            path.moveTo(pw+4, hy)
+            path.lineTo(endX, hy)
         }
         canvas.drawPath(path, prospectPaint)
     }
@@ -394,7 +394,7 @@ class TextSeekBar : View {
             path.lineTo(mWidth, hy)
         } else {
             path.moveTo(width / 2, hy)
-            path.lineTo(mWidth - width / 2 - 4, hy)
+            path.lineTo(mWidth - width / 2 , hy)
         }
         canvas.drawPath(path, backgroundPaint)
     }
