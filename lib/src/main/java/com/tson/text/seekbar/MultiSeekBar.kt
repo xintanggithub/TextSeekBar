@@ -2,6 +2,7 @@ package com.tson.text.seekbar
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -49,11 +50,12 @@ class MultiSeekBar : RelativeLayout {
     }
 
     private fun changePercent(percent: Float, event: Event?) {
-        changeWeight(startV, 100 * percent)
-        changeWeight(endV, 100 - (100 * percent))
-        event?.let { touch(percent, it) }
+        val p = if (percent < 0f) 0f else if (percent > 1f) 1f else percent
+        Log.w("changePercent","changePercent = $p")
+        changeWeight(startV, 100 * p)
+        changeWeight(endV, 100 - (100 * p))
+        event?.let { touch(p, it) }
     }
-
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
