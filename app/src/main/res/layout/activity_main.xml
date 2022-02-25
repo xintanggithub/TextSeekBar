@@ -22,11 +22,13 @@
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:layout_height="wrap_content">
-
+                <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#336699"
+                    android:background="@drawable/bg_radius18_bg"
+                    android:backgroundTint="#336699"
+                    android:paddingHorizontal="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -41,6 +43,7 @@
                         android:src="@drawable/_image_camera" />
                 </LinearLayout>
 
+                <!--这个就是背景进度，只需要设置好属性，进度变化等等，MultiSeekBar会统一维护-->
                 <com.tson.text.seekbar.TextSeekBar
                     android:layout_width="match_parent"
                     android:layout_height="20dp"

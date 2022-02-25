@@ -126,3 +126,83 @@ seekbar.setPercent("float 类型进度，0~1",”需要显示的内容“)
 seekbar.isEnable = true  // 是否禁用，如果 为 true 禁用，seekbar不可拖动， false 不禁用，seekbar可拖动，默认 false
 ```
 
+
+#### 4.复杂性自定义
+
+如果文本、图片的thumb无法满足的话，可以使用 `MultiSeekBar` 来进行自定义thumb，如下： 
+
+```xml
+<com.tson.text.seekbar.MultiSeekBar
+    android:id="@+id/multiSeekBarMSB"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+    <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_radius18_bg"
+        android:backgroundTint="#336699"
+        android:paddingHorizontal="5dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/_image_camera" />
+    </LinearLayout>
+
+    <!--这个就是背景进度，只需要设置好属性，进度变化等等，MultiSeekBar会统一维护-->
+    <com.tson.text.seekbar.TextSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        app:backgroundProgressBarColor="#FAB282"
+        app:backgroundProgressBarEndColor="#FB6501"
+        app:backgroundProgressBarHeight="8dp"
+        app:backgroundProgressBarStartColor="#FFE8D9"
+        app:progress="0"
+        app:prospectProgressBarColor="#B18BF4"
+        app:prospectProgressBarEndColor="#630DFB"
+        app:prospectProgressBarHeight="8dp"
+        app:prospectProgressBarStartColor="#F6F1FF"
+        app:thumbHide="true" />
+</com.tson.text.seekbar.MultiSeekBar>
+```
+
+- 实例：
+
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic3.png?raw=true)
+
+- 进度监听
+```kotlin
+multiSeekBarMSB.addOnChangeListener(object : SeekBarViewOnChangeListener {
+            override fun touch(percent: Float, eventType: Int) {
+                when (eventType) {
+                    Up -> { // 手指触发抬起
+                    }
+                    Move -> { // 进度变更 or 手指滑动
+                    }
+                    Down -> { // 手指按下
+                    }
+                }
+            }
+        })
+```
+
+- 变化进度
+此处进度不在支持文本等，因为自定义了thumb，请自行变更自定义的布局属性
+```kotlin
+multiSeekBarMSB.percent(0f..1f)
+```
+
+- 启用禁用
+```kotlin
+multiSeekBarMSB.isEnable = true // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
+```
