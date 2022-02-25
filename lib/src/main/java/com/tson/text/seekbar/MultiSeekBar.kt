@@ -25,6 +25,14 @@ class MultiSeekBar : RelativeLayout {
         view
     }
 
+    @Volatile
+    var isEnable = false // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
+    private var mWidth = 0f
+    private var tsb: TextSeekBar? = null
+    private val startV: View by lazy { multiView.findViewById<View>(R.id.startV) }
+    private val endV: View by lazy { multiView.findViewById<View>(R.id.endV) }
+    private val customV: LinearLayout by lazy { multiView.findViewById<LinearLayout>(R.id.customV) }
+
     private var seekBarTouchListener: SeekBarViewOnChangeListener? = null
 
     fun addOnChangeListener(listener: SeekBarViewOnChangeListener) {
@@ -38,12 +46,6 @@ class MultiSeekBar : RelativeLayout {
     private fun touch(percent: Float, eventType: Event) {
         seekBarTouchListener?.touch(if (percent < 0) 0f else if (percent > 1) 1f else percent, eventType)
     }
-
-    private var mWidth = 0f
-    private var tsb: TextSeekBar? = null
-    private val startV: View by lazy { multiView.findViewById<View>(R.id.startV) }
-    private val endV: View by lazy { multiView.findViewById<View>(R.id.endV) }
-    private val customV: LinearLayout by lazy { multiView.findViewById<LinearLayout>(R.id.customV) }
 
     fun percent(percent: Float) {
         changePercent(percent, null)
@@ -70,6 +72,9 @@ class MultiSeekBar : RelativeLayout {
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (isEnable) {
+            return true
+        }
         val x = event.x
         val p = x / mWidth
 
