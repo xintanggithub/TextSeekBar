@@ -258,6 +258,11 @@ class TextSeekBar : View {
         if (!verifyBound(event)) { // 如果在边界之外
             return true
         }
+        touchEvent(event)
+        return true
+    }
+
+    fun touchEvent(event: MotionEvent) {
         val x = event.x
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -278,7 +283,6 @@ class TextSeekBar : View {
                 checkPercent(x, Up)
             }
         }
-        return true
     }
 
     /**
