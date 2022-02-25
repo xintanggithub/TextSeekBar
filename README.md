@@ -178,7 +178,7 @@ seekbar.isEnable = true  // 是否禁用，如果 为 true 禁用，seekbar不�
 
 - 实例：
 
-![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic3.png?raw=true)
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/pic3.jpg?raw=true)
 
 - 进度监听
 ```kotlin
