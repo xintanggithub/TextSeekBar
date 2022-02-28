@@ -2,9 +2,13 @@
 <resources>
 
     <declare-styleable name="MultiSeekBar">
+        <!--    背景进度-->
         <attr name="backgroundProgress" format="reference|color" />
+        <!--    背景高度-->
         <attr name="backgroundProgressHeight" format="dimension" />
+        <!--    前景进度-->
         <attr name="prospectProgress" format="reference|color" />
+        <!--    前景高度-->
         <attr name="prospectProgressHeight" format="dimension" />
     </declare-styleable>
 

@@ -206,3 +206,61 @@ multiSeekBarMSB.percent(0f..1f)
 ```kotlin
 multiSeekBarMSB.isEnable = true // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
 ```
+
+#### 5. 背景进度条、前景进度条支持shape
+
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/MultiSeekBar.gif?raw=true)
+
+##### 5.1 使用
+```xml
+        <com.tson.text.seekbar.MultiSeekBar
+            android:id="@+id/shapeBgMB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:backgroundProgress="@drawable/bg_radius18_bg"
+            app:backgroundProgressHeight="10dp"
+            app:prospectProgress="@drawable/bg_radius18_pb"
+            app:prospectProgressHeight="11dp">
+    
+            <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radius18_bg"
+                android:backgroundTint="#336699"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/_image_camera" />
+            </LinearLayout>
+
+        </com.tson.text.seekbar.MultiSeekBar>
+```
+
+- 因为使用 `shape` 方式，所以不在需要使用 `com.tson.text.seekbar.TextSeekBar`
+
+##### 5.2 属性说明
+```xml
+    <declare-styleable name="MultiSeekBar">
+        <!--    背景进度-->
+        <attr name="backgroundProgress" format="reference|color" />
+        <!--    背景高度-->
+        <attr name="backgroundProgressHeight" format="dimension" />
+        <!--    前景进度-->
+        <attr name="prospectProgress" format="reference|color" />
+        <!--    前景高度-->
+        <attr name="prospectProgressHeight" format="dimension" />
+    </declare-styleable>
+```
+
+- 进度监听等和 `4.复杂性自定义` 一致
