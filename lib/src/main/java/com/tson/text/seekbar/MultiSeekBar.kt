@@ -49,6 +49,7 @@ class MultiSeekBar : RelativeLayout {
 
     fun percent(percent: Float) {
         changePercent(percent, null)
+        tsb?.setPercent(percent)
     }
 
     private fun changePercent(percent: Float, event: Event?) {
