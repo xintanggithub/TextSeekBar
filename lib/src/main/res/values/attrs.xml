@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="MultiSeekBar">
+        <attr name="backgroundProgress" format="reference|color" />
+        <attr name="backgroundProgressHeight" format="dimension" />
+        <attr name="prospectProgress" format="reference|color" />
+        <attr name="prospectProgressHeight" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="SeekBarView">
         <!--        thumb是否隐藏，默认false，不隐藏-->
         <attr name="thumbHide" format="boolean" />
@@ -26,7 +34,7 @@
         <!--        thumb边框渐变结束颜色-->
         <attr name="thumbBorderEndColor" format="color|reference" />
         <!--        thumb前后padding值，可以为负-->
-        <attr name="headEndPadding" format="dimension"/>
+        <attr name="headEndPadding" format="dimension" />
         <!--        前景进度条高度-->
         <attr name="prospectProgressBarHeight" format="dimension" />
         <!--        前景进度条开始的渐变颜色-->
@@ -65,9 +73,9 @@
             <flag name="round" value="0x20" />
         </attr>
         <attr name="strokeCap">
-            <flag name="butt" value="0x10"/>
-            <flag name="round" value="0x20"/>
-            <flag name="square" value="0x30"/>
+            <flag name="butt" value="0x10" />
+            <flag name="round" value="0x20" />
+            <flag name="square" value="0x30" />
         </attr>
         <!--        thumb进度-->
         <attr name="progress" format="integer" />

@@ -23,7 +23,10 @@ class MainActivity : AppCompatActivity() {
     private fun looperAdd() {
         if (percent in 0f..1f) {
             percent += 0.005f
-            runOnUiThread { multiSeekBarMSB.percent(percent) }
+            runOnUiThread {
+                shapeBgMB.percent(percent)
+                multiSeekBarMSB.percent(percent)
+            }
             Handler().postDelayed({
                 looperAdd()
             },15)

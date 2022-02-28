@@ -11,31 +11,65 @@
         android:orientation="vertical"
         android:padding="10dp"
         tools:context=".MainActivity">
+
         <Button
             android:id="@+id/btnTest"
-            android:text="进度增加"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="进度增加" />
+
+        <com.tson.text.seekbar.MultiSeekBar
+            android:id="@+id/shapeBgMB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:backgroundProgress="@drawable/bg_radius18_bg"
+            app:backgroundProgressHeight="10dp"
+            app:prospectProgress="@drawable/bg_radius18_pb"
+            app:prospectProgressHeight="11dp">
+            <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radius18_bg"
+                android:backgroundTint="#336699"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/_image_camera" />
+            </LinearLayout>
+
+        </com.tson.text.seekbar.MultiSeekBar>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <com.tson.text.seekbar.MultiSeekBar
                 android:id="@+id/multiSeekBarMSB"
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
                 <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_radius18_bg"
                     android:backgroundTint="#336699"
-                    android:paddingHorizontal="5dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"

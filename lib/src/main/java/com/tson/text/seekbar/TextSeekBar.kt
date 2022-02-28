@@ -163,7 +163,7 @@ class TextSeekBar : View {
 
     constructor(context: Context) : super(context)
 
-    @SuppressLint("Recycle", "ResourceAsColor", "CustomViewStyleable")
+    @SuppressLint("ResourceAsColor", "CustomViewStyleable")
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
 
         thumbTextColor = Color.parseColor("#ffffff")
@@ -207,6 +207,7 @@ class TextSeekBar : View {
         thumbIconHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.SeekBarView_thumbIconHeight, 0)
         val p = seekTypedArray.getInt(R.styleable.SeekBarView_progress, 0)
         progress = (if (p < 0) 0 else if (p > 100) 100 else p).toFloat() / 100f
+        seekTypedArray.recycle()
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
