@@ -58,8 +58,10 @@ class MultiSeekBar : RelativeLayout {
     }
 
     fun percent(percent: Float) {
-        changePercent(percent, null)
-        tsb?.setPercent(percent)
+        post {
+            changePercent(percent, null)
+            tsb?.post { tsb?.setPercent(percent) }
+        }
     }
 
     private fun changePercent(percent: Float, event: Event?) {
@@ -130,7 +132,6 @@ class MultiSeekBar : RelativeLayout {
         pbLL.layoutParams = LayoutParams((mWidth * mtPercent).toInt(), prospectProgressHeight).also { it.addRule(CENTER_VERTICAL) }
     }
 
-
     private fun drawThumb() {
         if (childCount > 0) {
             val thumb = getChildAt(0)
@@ -139,8 +140,8 @@ class MultiSeekBar : RelativeLayout {
             addView(multiView)
             multiView.weightSum = 100f
 
-            changeWeight(startV, 0f)
-            changeWeight(endV, 100f)
+            changeWeight(startV, 100 * mtPercent)
+            changeWeight(endV, 100 - (100 * mtPercent))
             customV.addView(thumb)
 
             for (i in 0..childCount) {
@@ -148,7 +149,7 @@ class MultiSeekBar : RelativeLayout {
                 if (item is TextSeekBar) {
                     tsb = item
                     tsb?.isEnable = true
-                    tsb?.changePercent(0f)
+                    tsb?.changePercent(percent = mtPercent)
                 }
             }
 

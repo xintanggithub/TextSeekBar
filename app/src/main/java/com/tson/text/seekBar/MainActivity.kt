@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        shapeBgMB.percent(0.5f)
+        multiSeekBarMSB.percent(0.5f)
         btnTest.setOnClickListener {
             percent = 0f
             looperAdd()
