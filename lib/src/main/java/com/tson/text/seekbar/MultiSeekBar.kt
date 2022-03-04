@@ -1,11 +1,9 @@
 package com.tson.text.seekbar
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +40,7 @@ class MultiSeekBar : RelativeLayout {
     private val startV: View by lazy { multiView.findViewById<View>(R.id.startV) }
     private val endV: View by lazy { multiView.findViewById<View>(R.id.endV) }
     private val customV: LinearLayout by lazy { multiView.findViewById<LinearLayout>(R.id.customV) }
+    private val bgLL = LinearLayout(context)
 
     private var seekBarTouchListener: SeekBarViewOnChangeListener? = null
 
@@ -67,7 +66,6 @@ class MultiSeekBar : RelativeLayout {
     private fun changePercent(percent: Float, event: Event?) {
         val p = if (percent < 0f) 0f else if (percent > 1f) 1f else percent
         mtPercent = p
-        Log.w("changePercent","changePercent = $p")
         changeWeight(startV, 100 * p)
         changeWeight(endV, 100 - (100 * p))
         prospectProgress?.let { changeProgress() }
@@ -76,11 +74,7 @@ class MultiSeekBar : RelativeLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         val seekTypedArray = context.obtainStyledAttributes(attrs, R.styleable.MultiSeekBar)
         backgroundProgress = seekTypedArray.getDrawable(R.styleable.MultiSeekBar_backgroundProgress)
         prospectProgress = seekTypedArray.getDrawable(R.styleable.MultiSeekBar_prospectProgress)
@@ -118,32 +112,24 @@ class MultiSeekBar : RelativeLayout {
     }
 
     private fun drawProcess() {
-        val bgLL = LinearLayout(context)
-        bgLL.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, backgroundProgressHeight).also { it.addRule(CENTER_VERTICAL) }
         bgLL.background = backgroundProgress
+        bgLL.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, backgroundProgressHeight).also { lp -> lp.addRule(CENTER_VERTICAL) }
         addView(bgLL)
 
-        changeProgress()
         pbLL.background = prospectProgress
         addView(pbLL)
     }
 
-    private fun changeProgress() {
-        pbLL.layoutParams = LayoutParams((mWidth * mtPercent).toInt(), prospectProgressHeight).also { it.addRule(CENTER_VERTICAL) }
-    }
+    private fun changeProgress() { startV.post { pbLL.layoutParams = LayoutParams(startV.measuredWidth + customV.measuredWidth / 2, prospectProgressHeight).also { it.addRule(CENTER_VERTICAL) } } }
 
     private fun drawThumb() {
         if (childCount > 0) {
             val thumb = getChildAt(0)
             removeView(thumb)
-
             addView(multiView)
-            multiView.weightSum = 100f
-
             changeWeight(startV, 100 * mtPercent)
             changeWeight(endV, 100 - (100 * mtPercent))
             customV.addView(thumb)
-
             for (i in 0..childCount) {
                 val item = getChildAt(i)
                 if (item is TextSeekBar) {
@@ -152,7 +138,6 @@ class MultiSeekBar : RelativeLayout {
                     tsb?.changePercent(percent = mtPercent)
                 }
             }
-
         }
     }
 
