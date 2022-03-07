@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         shapeBgMB.percent(0.5f)
-//        multiSeekBarMSB.percent(0.5f)
+        multiSeekBarMSB.percent(0.5f)
         btnTest.setOnClickListener {
             percent = 0f
             looperAdd()
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             percent += 0.005f
             runOnUiThread {
                 shapeBgMB.percent(percent)
-//                multiSeekBarMSB.percent(percent)
+                multiSeekBarMSB.percent(percent)
             }
             Handler().postDelayed({
                 looperAdd()

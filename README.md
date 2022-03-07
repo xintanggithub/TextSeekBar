@@ -260,7 +260,13 @@ multiSeekBarMSB.isEnable = true // 是否禁用，如果 为 true ，禁用， f
         <attr name="prospectProgress" format="reference|color" />
         <!--    前景高度-->
         <attr name="prospectProgressHeight" format="dimension" />
+        <!--    thumb偏移量  针对thumb透明边框露底问题处理，但是设置了之后，进度条的宽度在视觉效果上会变窄 ：总宽度 - 2倍偏移量 = 实际宽度   -->
+        <attr name="multiThumbOffset" format="dimension"/>
     </declare-styleable>
 ```
 
 - 进度监听等和 `4.复杂性自定义` 一致
+
+- 偏移量效果：
+
+![示例](https://github.com/xintanggithub/TextSeekBar/blob/master/offset.png?raw=true)
