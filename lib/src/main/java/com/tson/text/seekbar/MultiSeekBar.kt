@@ -8,20 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import com.tson.text.seekbar.event.Down
-import com.tson.text.seekbar.event.Event
-import com.tson.text.seekbar.event.Move
-import com.tson.text.seekbar.event.Up
+import com.tson.text.seekbar.event.*
 import com.tson.text.seekbar.listener.SeekBarViewOnChangeListener
 
 class MultiSeekBar : RelativeLayout {
 
     private val multiView: LinearLayout by lazy {
         val view: LinearLayout = inflate(context, R.layout.mutl, null) as LinearLayout
-        view.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
+        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         view
     }
 
@@ -58,18 +52,12 @@ class MultiSeekBar : RelativeLayout {
         seekBarTouchListener?.touch(if (percent < 0) 0f else if (percent > 1) 1f else percent, eventType)
     }
 
-    fun percent(percent: Float) {
-        post {
-            changePercent(percent, null)
-            tsb?.post { tsb?.setPercent(percent) }
-        }
-    }
+    fun percent(percent: Float) { post { changePercent(percent, null).and { tsb?.post { tsb?.setPercent(percent) } } } }
 
     private fun changePercent(percent: Float, event: Event?) {
         val p = if (percent < 0f) 0f else if (percent > 1f) 1f else percent
         mtPercent = p
-        changeWeight(startV, 100 * p)
-        changeWeight(endV, 100 - (100 * p))
+        changeWeight(startV, 100 * p).and { changeWeight(endV, 100 - (100 * p)) }
         prospectProgress?.let { changeProgress() }
         event?.let { touch(p, it) }
     }
@@ -122,22 +110,19 @@ class MultiSeekBar : RelativeLayout {
 
     private fun drawProcess() {
         bgLL.background = backgroundProgress
-        bgLL.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, backgroundProgressHeight).also { lp -> lp.addRule(CENTER_VERTICAL) }
+        bgLL.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, backgroundProgressHeight).also { lp -> lp.addRule(CENTER_VERTICAL).and{ lp.marginStart = multiThumbOffset }.and { lp.marginEnd = multiThumbOffset } }
         addView(bgLL)
 
         pbLL.background = prospectProgress
         addView(pbLL)
     }
 
-    private fun changeProgress() { startV.post { pbLL.layoutParams = LayoutParams(startV.measuredWidth + customV.measuredWidth / 2, prospectProgressHeight).also { it.addRule(CENTER_VERTICAL) } } }
+    private fun changeProgress() { startV.post { pbLL.layoutParams = LayoutParams(startV.measuredWidth + customV.measuredWidth / 2 - multiThumbOffset, prospectProgressHeight).also { it.addRule(CENTER_VERTICAL).and{ it.marginStart = multiThumbOffset }.and { it.marginEnd = multiThumbOffset } } } }
 
     private fun drawThumb() {
         if (childCount > 0) {
             val thumb = getChildAt(0)
-            removeView(thumb)
-            addView(multiView)
-            changeWeight(startV, 100 * mtPercent)
-            changeWeight(endV, 100 - (100 * mtPercent))
+            removeView(thumb).and { addView(multiView) }.and { changeWeight(startV, 100 * mtPercent).and { changeWeight(endV, 100 - (100 * mtPercent)) } }
             customV.addView(thumb)
             for (i in 0..childCount) {
                 val item = getChildAt(i)

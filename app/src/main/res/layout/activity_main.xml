@@ -26,26 +26,35 @@
             app:backgroundProgress="@drawable/bg_radius18_bg"
             app:backgroundProgressHeight="10dp"
             app:prospectProgress="@drawable/bg_radius18_pb"
-            app:prospectProgressHeight="11dp">
+            app:prospectProgressHeight="11dp"
+            app:multiThumbOffset="5.5dp">
             <!--这个LinearLayout里面的就是你要自定义的thumb的样子-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_radius18_bg"
-                android:backgroundTint="#336699"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="5dp">
+                android:backgroundTint="#55336699"
+                android:padding="5dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123" />
+                    android:background="@drawable/bg_radius18_bg"
+                    android:backgroundTint="#336699"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="5dp">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/_image_camera" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="123" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/_image_camera" />
+                </LinearLayout>
             </LinearLayout>
 
         </com.tson.text.seekbar.MultiSeekBar>
