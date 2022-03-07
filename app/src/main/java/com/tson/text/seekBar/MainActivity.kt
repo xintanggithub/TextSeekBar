@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.tson.text.seekbar.event.Down
 import com.tson.text.seekbar.event.Event
+import com.tson.text.seekbar.event.Up
 import com.tson.text.seekbar.listener.SeekBarViewOnChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,14 +20,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         shapeBgMB.percent(0.5f)
-        multiSeekBarMSB.percent(0.5f)
+//        multiSeekBarMSB.percent(0.5f)
         btnTest.setOnClickListener {
             percent = 0f
             looperAdd()
         }
         shapeBgMB.addOnChangeListener(object : SeekBarViewOnChangeListener {
             override fun touch(percent: Float, eventType: Event) {
-                Log.e("touch", "percent = $percent     |  eventType = $eventType")
+                when(eventType) {
+                    Down -> Log.e("touch", "Down")
+                    Up -> Log.e("touch", "Up")
+                    else -> Log.e("touch", "Move   percent = $percent     |  eventType = $eventType")
+                }
             }
         })
     }
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             percent += 0.005f
             runOnUiThread {
                 shapeBgMB.percent(percent)
-                multiSeekBarMSB.percent(percent)
+//                multiSeekBarMSB.percent(percent)
             }
             Handler().postDelayed({
                 looperAdd()

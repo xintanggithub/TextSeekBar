@@ -3,7 +3,6 @@ package com.tson.text.seekbar
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +35,9 @@ class MultiSeekBar : RelativeLayout {
     var isEnable = false // 是否禁用，如果 为 true ，禁用， false 不禁用，默认 false 不禁用
     private var mWidth = 0f
     private var mtPercent = 0f
+    private var multiThumbOffset = 0
+    private var diffTime = 0L
+    var interval = 30
     private var tsb: TextSeekBar? = null
     private val startV: View by lazy { multiView.findViewById<View>(R.id.startV) }
     private val endV: View by lazy { multiView.findViewById<View>(R.id.endV) }
@@ -80,6 +82,7 @@ class MultiSeekBar : RelativeLayout {
         prospectProgress = seekTypedArray.getDrawable(R.styleable.MultiSeekBar_prospectProgress)
         backgroundProgressHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.MultiSeekBar_backgroundProgressHeight,5)
         prospectProgressHeight = seekTypedArray.getDimensionPixelOffset(R.styleable.MultiSeekBar_prospectProgressHeight,5)
+        multiThumbOffset = seekTypedArray.getDimensionPixelOffset(R.styleable.MultiSeekBar_multiThumbOffset, 0)
         seekTypedArray.recycle()
     }
 
@@ -89,6 +92,12 @@ class MultiSeekBar : RelativeLayout {
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val diff = currentTime - diffTime
+        if (diff < interval) {
+            return true
+        }
+        diffTime = currentTime
         if (isEnable) {
             return true
         }
@@ -136,6 +145,7 @@ class MultiSeekBar : RelativeLayout {
                     tsb = item
                     tsb?.isEnable = true
                     tsb?.changePercent(percent = mtPercent)
+                    return
                 }
             }
         }
